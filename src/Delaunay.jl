@@ -11,7 +11,7 @@ end
 function delaunayn(points::Array{Float64})
     py = scipyspatial[:Delaunay](points)
     indices = Array{Int64, 2}(length(py["simplices"]), size(points, 2) + 1)
-    pyarray_to_array!(py["simplices"], indices, Int) 
+    pyarray_to_array!(py["simplices"], indices, Int)
     return indices .+ 1 # Add 1 to account for base difference in indices
 end
 
@@ -24,4 +24,3 @@ end
 export delaunayn
 
 end
-

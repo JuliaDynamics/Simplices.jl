@@ -1,4 +1,4 @@
-include("delaunay.jl")
+include("Delaunay.jl")
 using .Delaunay.delaunayn
 
 
