@@ -1,4 +1,3 @@
-__precompile__()
 module Simplices
 
 include("barycentric-coordinates.jl")
