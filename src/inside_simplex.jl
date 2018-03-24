@@ -39,7 +39,7 @@ function childpoints(parent_simplex::Array{Float64, 2}, n::Int)
     # as a convex linear combination of the vertices of the parent simplex.
     normalised_coeffs = (1 ./ sum(R, 2)) .* R
 
-    normalised_coeffs * parentsimplex
+    normalised_coeffs * parent_simplex
 end
 
 
