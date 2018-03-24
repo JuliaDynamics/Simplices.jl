@@ -1,3 +1,5 @@
+__precompile__(true)
+
 module Simplices
 
 include("barycentric-coordinates.jl")
@@ -33,7 +35,9 @@ include("volume-computation.jl")
 export BarycentricCoordinates,
         centroid,
         Circumsphere,
-        childsimplex, childpoint, childpoints,
+        childsimplex,
+        childpoint,
+        childpoints,
         Delaunay,
         heaviside0,
         intersecting_simplices,
