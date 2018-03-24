@@ -30,7 +30,7 @@ end
 """
 Create multiple (default = 100) points that lies inside `parent_simplex`.
 """
-function childpoints(parent_simplex::Array{Float64, 2}; n::Int = 100)
+function childpoints(parent_simplex::Array{Float64, 2}, n::Int)
     dim = size(parent_simplex, 2)
     # Random linear combination coefficients
     R = rand(n, dim + 1)
