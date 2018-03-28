@@ -18,6 +18,24 @@ function childpoint(parentsimplex::AbstractArray{Float64, 2})
 end
 
 """
+    childpoint(parentsimplex::AbstractArray{Float64, 2})
+
+Generates a random simplex which is entirely contained within `parentsimplex`,
+which is a (dim+1)-by-dim array.
+"""
+function childpoint(parentsimplex::AbstractArray{Float64, 2}, dim::Int)
+    # Random linear combination coefficients
+    R = rand(Float64, 1, dim + 1)
+
+    # Normalise the coefficients so that they sum to one. We can then create
+	# the new point as a convex linear combination of the vertices of the parent
+	# simplex.
+    R = (1 ./ sum(R, 2)) .* R
+
+    R * parentsimplex
+end
+
+"""
 Create a point that lies inside `parent_simplex`, which is a (dim+1)-by-dim
 array.
 """
