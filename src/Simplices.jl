@@ -2,6 +2,8 @@ __precompile__(true)
 
 module Simplices
 
+using PyCall
+
 include("barycentric-coordinates.jl")
 include("Binary.jl")
 include("Circumsphere.jl")
@@ -13,7 +15,6 @@ include("heaviside.jl")
 include("intersection-of-boundaries.jl")
 include("intersection-of-boundaries-loop.jl")
 include("init_functions.jl")
-include("inside_simplex.jl")
 include("NullSpace.jl")
 include("polytope-generating-vertices.jl")
 include("QR.jl")
@@ -23,6 +24,7 @@ include("sharing-a-face.jl")
 include("some-vertex-in-circumsphere.jl")
 include("simplexoperations.jl")
 include("simplexintersect.jl")
+include("simplex_sampling.jl")
 include("simplex_split.jl")
 include("simplex_subdivision.jl")
 include("simplex_subdivision_single.jl")
@@ -39,6 +41,7 @@ export BarycentricCoordinates,
         childpoint,
         childpoints,
         Delaunay,
+        even_sampling, even_sampling_rules, evenly_sample,
         heaviside,
         heaviside0,
         intersecting_simplices,
@@ -59,59 +62,9 @@ export BarycentricCoordinates,
         simplices_sharing_vertices,
         simplexintersection,
         SomeVertexInCircumsphere,
+        subsample_coeffs,
+        tensordecomp,
         volume,
         VolumeComputation
-
-
-# function speed_test_nontrivial(dim,N)
-#     for i = 1:N
-#         S1,S2 = nontrivially_intersecting_simplices(dim)
-#             simplexintersection(S1.', S2.')
-#     end
-# end
-#
-#
-# function speed_test_sharing(dim,N)
-#     for i = 1:N
-#         S1,S2 = simplices_sharing_vertices(dim)
-#             simplexintersection(S1.', S2.')
-#     end
-# end
-#
-# speed_test_nontrivial(3, 1)
-# speed_test_nontrivial(4, 1)
-# speed_test_nontrivial(5, 1)
-#
-# speed_test_sharing(3, 1)
-# speed_test_sharing(4, 1)
-# speed_test_sharing(5, 1)
-        # # Simplex splitting stuff
-        # centroids_radii2,
-        # embed,
-        # Embedding,
-        # embedding,
-        # embedding_ex,
-        # embedding_example,
-        # example_triangulation,
-        # gaussian_embedding,
-        # gaussian_embedding_arr,
-        # invariantset,
-        # refine_triangulation,
-        # refine_triangulation_images,
-        # refine_recursive,
-        # refine_recursive_images,
-        # refine_t!,
-        # refine_variable_k!,
-        # refine_variable_k_new,
-        # refine_variable_k_newnew,
-        # simplex_split,
-        # simplicial_subdivision_single,
-        # simplicial_subdivision,
-        # simplex_volumes,
-        # tensordecomposition,
-        # triangulate,
-        # Triangulation,
-        # triang_from_embedding
-        # query_refinement
 
 end
