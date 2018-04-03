@@ -7,3 +7,8 @@ function delaunaytest(n::Int, dim::Int, reps::Int)
 
     return true
 end
+
+
+@testset "Delaunay" begin
+    @test delaunaytest(10, 3, 10) == true
+end
