@@ -58,3 +58,5 @@ end
     end
     return(h)
 end
+
+export heaviside, heaviside0
