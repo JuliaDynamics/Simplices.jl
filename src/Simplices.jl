@@ -63,6 +63,7 @@ export BarycentricCoordinates,
         simplexintersection,
         SomeVertexInCircumsphere,
         subsample_coeffs,
+        tensordecomp,
         volume,
         VolumeComputation
 
