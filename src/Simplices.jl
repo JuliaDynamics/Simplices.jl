@@ -17,6 +17,8 @@ if !("Distributions" in keys(installed))
     Pkg.add("Distributions"); using Distributions
 end
 
+ENV["PYTHON"]= ""; Pkg.build("PyCall")
+
 using PyCall, Conda, Distributions
 
 include("barycentric-coordinates.jl")
