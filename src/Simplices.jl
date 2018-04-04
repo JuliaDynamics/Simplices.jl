@@ -2,7 +2,22 @@ __precompile__(true)
 
 module Simplices
 
-using PyCall
+
+
+installed = Pkg.installed()
+if !("Pycall" in keys(installed))
+    Pkg.add("PyCall"); ENV["PYTHON"]= ""; Pkg.build("PyCall"),
+end
+
+if !("Conda" in keys(installed))
+    Pkg.add("Conda"); using Conda; Conda.add("scipy")
+end
+
+if !("Distributions" in keys(installed))
+    Pkg.add("Distributions"); using Distributions;
+end
+
+using PyCall, Conda, Distributions
 
 include("barycentric-coordinates.jl")
 include("Binary.jl")
