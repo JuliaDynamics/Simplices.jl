@@ -8,6 +8,11 @@ else
     using SimplexSplitting
 end
 
+using PyCall, Conda
+Conda.add("scipy")
+ENV["PYTHON"]= ""; Pkg.build("PyCall"); using PyCall
+
+
 include("even_sampling.jl")
 include("test_delaunay.jl")
 include("test_intersectionvol.jl")
