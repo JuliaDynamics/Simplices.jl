@@ -2,6 +2,7 @@ __precompile__(true)
 
 module Simplices
 
+using Distributions
 
 #
 # installed = Pkg.installed()
