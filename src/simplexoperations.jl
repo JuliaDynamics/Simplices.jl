@@ -88,7 +88,7 @@ Generates `npts` points that located inside `parentsimplex`.
 function insidepoints(npts::Int, parentsimplex::Array{Float64, 2})
     dim = size(parentsimplex, 2)
     # Random linear combination coefficients
-    R = rand(npts, dim + 1)
+    R = rand(Uniform(), npts, dim + 1)
 
     # Normalise the coefficients so that they sum to one. We can then create the new point
     # as a convex linear combination of the vertices of the parent simplex.
