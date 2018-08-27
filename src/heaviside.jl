@@ -1,9 +1,5 @@
 heaviside(x::T) where {T<:Number} = ifelse(x <= 0, zero(x), ifelse(x > 0, one(x), oftype(x,0)))
-<<<<<<< HEAD
 heaviside0(x::T) where {T<:Number} = ifelse(x < 0, zero(x), ifelse(x >= 0, one(x), oftype(x, 0)))
-=======
-heaviside0(x::T) {T<:Number} = ifelse(x < 0, zero(x), ifelse(x >= 0, one(x), oftype(x, 0)))
->>>>>>> parametric_delaunay
 
 func_name1 = Symbol(string("heaviside"))
 
