@@ -8,7 +8,7 @@ function __init__()
     copy!(scipyspatial, pyimport_conda("scipy.spatial", "scipy"))
 end
 
-function delaunayn(points::Array{Float64, 2})
+function delaunayn(points::Array{T, 2}) where {T<:Number}
     py = scipyspatial[:Delaunay](points)
     indices = Array{Int64, 2}(length(py["simplices"]), size(points, 2) + 1)
     pyarray_to_array!(py["simplices"], indices, Int)
