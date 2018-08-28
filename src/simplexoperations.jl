@@ -1,22 +1,23 @@
 """
-    `centroid(simplex::Array{Float64, 2})`
+    centroid(simplex::Array{Float64, 2}) where {T<:Number} -> Array{Float64, 2}
 
-Computes the centroid of a simplex given by `(dim+1)`-by-`dim` array, where each row is a
-vertex. Returns the centroid as a vertex (a `1`-by-`dim` two-dimensional array).
+Computes the centroid of a simplex given by `(dim+1)`-by-`dim` array, where
+each row is a vertex. Returns the centroid as a vertex (a `1`-by-`dim`
+two-dimensional array).
 
 """
-function centroid(simplex::Array{Float64, 2})
+function centroid(simplex::Array{T, 2}) where {T<:Number}
     n = size(simplex, 1) # Dimension of the space the simplex lives in
     (ones(n, 1)/n).' * simplex
 end
 
-
 """
-    `radius(simplex::Array{Float64, 2}, centroid::Array{Float64, 2})``
+    radius(simplex::Array{T, 2}, centroid::Array{T, 2}) where {T<:Number}
 
-Compute radius of a simplex (`(dim+1)`-by-`dim` sized `Array{Float64, 2}` given its centroid (`1`-by-`dim` sized `Array{Float64, 2}`).
+Compute radius of a simplex (`(dim+1)`-by-`dim` sized `Array{Float64, 2}`
+given its centroid (`1`-by-`dim` sized `Array{Float64, 2}`).
 """
-function radius(simplex::Array{Float64, 2}, centroid::Array{Float64, 2})
+function radius(simplex::Array{T, 2}, centroid::Array{T, 2}) where {T<:Number}
 
     # Express vertices with respect to origin
     dim = size(simplex, 2)
@@ -26,11 +27,12 @@ end
 
 
 """
-    `radius(s::Array{Float64, 2})`
+    radius(s::Array{T, 2}) where {T<:Number} -> Float64
 
-Compute radius of a simplex `s`, represented by a `Array{Float64, 2}` of size `(dim+1)`-by-`dim`.
+Compute radius of a simplex `s`, represented by a `Array{Float64, 2}` of size
+`(dim+1)`-by-`dim`.
 """
-function radius(simplex::Array{Float64, 2})
+function radius(simplex::Array{T, 2}) where {T<:Number}
 
     # Express vertices with respect to origin
     dim = size(simplex, 2)
@@ -40,30 +42,31 @@ end
 
 
 """
-    orientation(simplex::Array{Float64, 2})
+    orientation(simplex::Array{T, 2}) where {T<:Number} -> Float64
 
 Compute orientation of a `simplex`, represented by a `Array{Float64, 2}` of size `(dim+1)`-by-`dim`.
 """
-function orientation(simplex::Array{Float64, 2})
+function orientation(simplex::Array{T, 2}) where {T<:Number}
     dim = size(simplex, 2)
     hcat(ones(dim + 1, 1), simplex) |> det
 end
 
 """
-    volume(simplex::Array{Float64, 2})
+    volume(simplex::Array{T, 2}) where {T<:Number} -> Float64
 
 Compute the volume of a `simplex`, represented by a `Array{Float64, 2}` of size `(dim+1)`-by-`dim`.
 """
-function volume(simplex::Array{Float64, 2})
+function volume(simplex::Array{T, 2}) where {T<:Number}
     orientation(simplex) |> abs
 end
 
 """
-    childsimplex(parentsimplex::Array{Float64, 2})
+    childsimplex(parentsimplex::Array{T, 2}) where {T<:Number} -> Array{Float64, 2}
 
- Generates a random simplex which is entirely contained within `parentsimplex`, which is a (dim+1)-by-dim array.
+Generates a random simplex which is entirely contained within `parentsimplex`,
+which is a (dim+1)-by-dim array.
 """
-function childsimplex(parentsimplex::Array{Float64, 2})
+function childsimplex(parentsimplex::Array{T, 2}) where {T<:Number}
     # Convex expansion coefficients of the random simplex
     dim = size(parentsimplex, 2)
     rs = rand(dim + 1, dim + 1)
@@ -72,20 +75,21 @@ function childsimplex(parentsimplex::Array{Float64, 2})
 end
 
 """
-    issingular(simplex::Array{Float64, 2})
+    issingular(simplex::Array{T, 2}) where {T<:Number}
 
-Determines if a simplex is singular by checking if any of its vertices are identical.
+Determines if a simplex is singular by checking if any of its vertices are
+identical.
 """
-function issingular(simplex::Array{<:Number, 2})
+function issingular(simplex::Array{T, 2}) where {T<:Number}
     size(unique(simplex, 1), 1) != size(simplex, 1)
 end
 
 """
-    insidepoints(npts::Int, parentsimplex::Array{Float64, 2})
+    insidepoints(npts::Int, parentsimplex::Array{T, 2}) where {T<:Number}
 
 Generates `npts` points that located inside `parentsimplex`.
 """
-function insidepoints(npts::Int, parentsimplex::Array{Float64, 2})
+function insidepoints(npts::Int, parentsimplex::Array{T, 2}) where {T<:Number}
     dim = size(parentsimplex, 2)
     # Random linear combination coefficients
     R = rand(Uniform(), npts, dim + 1)
@@ -97,11 +101,11 @@ function insidepoints(npts::Int, parentsimplex::Array{Float64, 2})
 end
 
 """
-    `outsidepoint(parentsimplex::Array{Float64, 2})`
+    outsidepoint(parentsimplex::Array{T, 2}) where {T<:Number}
 
-Generate a point that is guaranteed to lie outside `parentsimplex`.
+Generate a single point that is guaranteed to lie outside `parentsimplex`.
 """
-function outsidepoint(parentsimplex::Array{Float64, 2})
+function outsidepoint(parentsimplex::Array{T, 2}) where {T<:Number}
     dim = size(parentsimplex, 2)
     # Random linear combination coefficients
     R = rand(1, dim + 1)
@@ -115,20 +119,21 @@ function outsidepoint(parentsimplex::Array{Float64, 2})
 end
 
 """
-    outsidepoints(npts::Int, parentsimplex::Array{Float64, 2})
+    outsidepoints(npts::Int, parentsimplex::Array{T, 2}) where T <: Number
 
 Generates `npts` points that located outside `parentsimplex`.
 """
-function outsidepoints(npts::Int, parentsimplex::Array{Float64, 2})
+function outsidepoints(npts::Int, parentsimplex::Array{T, 2}) where {T<:Number}
     vcat([outsidepoint(parentsimplex) for i in 1:npts]...)
 end
 
 
 
 """
-    `nontrivially_intersecting_simplices(dim::Int)`
+    nontrivially_intersecting_simplices(dim::Int) -> Array{Float64, 2}
 
-Genereate a set of non-trivially intersecting `dim`-dimensional simplices (i.e. they don't intersect along boundaries or vertices only).
+Genereate a set of non-trivially intersecting `dim`-dimensional simplices
+(i.e. they don't intersect along boundaries or vertices only).
 """
 function nontrivially_intersecting_simplices(dim::Int)
     rs = rand(dim + 1, dim) # random simplex with dim+1 vertices
@@ -143,9 +148,10 @@ end
 
 
 """
-    `nontrivially_intersecting_simplices(dim::Int)`
+    simplices_sharing_vertices(dim::Int) -> Array{Float64, 2}
 
-Genereate a set of non-trivially intersecting `dim`-dimensional simplices (i.e. they don't intersect along boundaries or vertices only).
+Genereate a set of non-trivially intersecting `dim`-dimensional simplices
+(i.e. they don't intersect along boundaries or vertices only).
 """
 function simplices_sharing_vertices(dim::Int)
     rs = rand(dim + 1, dim) # random simplex with dim+1 vertices
@@ -178,7 +184,8 @@ end
     intersecting_simplices(;dim::Int = 3, intersection_type = "nontrivial")
 
 Generate a pair of `dim` dimensional intersecting simplices. Each resulting
-simplex is a `(dim+1)`-by-`dim` two-dimensional array. The `intersection_type` argument can be either `"nontrivial"` or `"sharingvertices"`.
+simplex is a `(dim+1)`-by-`dim` two-dimensional array. The `intersection_type`
+argument can be either `"nontrivial"` or `"sharingvertices"`.
 """
 function intersecting_simplices(;dim::Int = 3, intersection_type = "nontrivial")
     if intersection_type == "nontrivial"

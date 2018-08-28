@@ -1,20 +1,24 @@
 
 """
-    SimplexIntersection()
+	  simplexintersection(S1::Array{Float64, 2}, S2::Array{Float64, 2};
+        tolerance::Float64 = 1/10^10) -> Float64
 
 Computes the volume of intersection between two n-dimensional simplices
-by boundary triangulation.
+by boundary triangulation. The simplices `S1` and `S2` are arrays of
+(n, n+1), where each column is a vertex.
 
-Input arguments
----------------
-S1::Array{Float64, 2} Simplex 1 represented a matrix of dimension nx(n+1), where each column vector is a vertex.
-S2::Array{Float64, 2} Simplex 2 represented a matrix of dimension nx(n+1), where each column vector is a vertex.
+## How are intersections computed?
+Intersections are computed as follows:
 
-Returns
--------
+1. Find minimal set of points generating the intersection volume. These points form
+a convex polytope Pᵢ.
+2. Triangulate the faces of Pᵢ into simplices.
+3. Combine each boundary simplex with an interior point in Pᵢ. The set of
+all such combinations form a triangulation of Pᵢ.
+4. Calculate the volume of each simplex in the resulting triangulation. The
+sum of these volumes is the volume of the intersection.
 """
-
-function simplexintersection(S1::Array{Float64, 2}, S2::Array{Float64, 2}; tolerance::Float64 = 1/10^10, what = "volume")
+function simplexintersection(S1::Array{Float64, 2}, S2::Array{Float64, 2}; tol::Float64 = 1/10^10)
 
   # Dimension
   const n = size(S1, 1)
@@ -29,7 +33,7 @@ function simplexintersection(S1::Array{Float64, 2}, S2::Array{Float64, 2}; toler
   const orientation_S1 = det([ones(1, n + 1); S1])
   const orientation_S2 = det([ones(1, n + 1); S2])
 
-  if abs(orientation_S1) < tolerance || abs(orientation_S2) < tolerance
+  if abs(orientation_S1) < tol || abs(orientation_S2) < tol
     return 0
   end
 
@@ -56,7 +60,8 @@ function simplexintersection(S1::Array{Float64, 2}, S2::Array{Float64, 2}; toler
 
     if vertices1InCircum2 + vertices2InCircum1 >= 1
       #print("Finding barycentric coordinates\t")
-      βs1in2, βs2in1, ordered_vertices1, ordered_vertices2, numof1in2, numof2in1 = BarycentricCoordinates(S1,S2,orientation_S1,orientation_S2,tolerance)
+      βs1in2, βs2in1, ordered_vertices1, ordered_vertices2, numof1in2, numof2in1 =
+        BarycentricCoordinates(S1,S2,orientation_S1,orientation_S2,tol)
       # Trivial intersections
       TriviallyContained = heaviside0([numof1in2 numof2in1] - (n+1))
       IsSomeContained = sum(TriviallyContained, 2)[1]
@@ -83,7 +88,7 @@ function simplexintersection(S1::Array{Float64, 2}, S2::Array{Float64, 2}; toler
           #print("Intersection of boundaries\t")
           #@time IntVert, ConvexExpIntVert  = IntersectionOfBoundaries(S1,S2,βs1in2,βs2in1, ordered_vertices1, ordered_vertices2, numof1in2, numof2in1, Ncomm, tolerance)
 
-          IntVert, ConvexExpIntVert = IntersectionOfBoundaries_NoStorage(S1,S2,βs1in2,βs2in1, ordered_vertices1, ordered_vertices2, numof1in2, numof2in1, Ncomm, tolerance)
+          IntVert, ConvexExpIntVert = IntersectionOfBoundaries_NoStorage(S1,S2,βs1in2,βs2in1, ordered_vertices1, ordered_vertices2, numof1in2, numof2in1, Ncomm, tol)
           if !isempty(IntVert)
             #print("PolytopeGeneratingVertices\t")
 
