@@ -89,7 +89,7 @@ function nd_Test(k, E, N; tolerance = 1/10^12, plot = false)
         for j = 1:size(triang_simplex_indices, 1)
             # Get the subsimplex vertices
             subsimplex = triang_vertices[triang_simplex_indices[j, :], :].'
-            intvol = simplexintersection(random_simplex, subsimplex, tolerance = tolerance, what = "volume")
+            intvol = simplexintersection(random_simplex, subsimplex, tol = tolerance)
             intersecting_volumes[j] = intvol
         end
 
@@ -153,7 +153,7 @@ end
     println("nD discrepancy test with ", reps, " reps:")
     @testset "E = $E" for E in 3:5
         # Trigger once for precompilation
-        @testset "k = $k" for k in 2:4
+        @testset "k = $k" for k in 2:3
             t1 = time_ns()/10^9
             discrepancies = nd_Test(k, E, reps)
             t2 = time_ns()/10^9
