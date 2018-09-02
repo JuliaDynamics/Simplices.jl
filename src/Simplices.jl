@@ -44,6 +44,7 @@ export BarycentricCoordinates,
         even_sampling, even_sampling_rules, evenly_sample,
         heaviside,
         heaviside0,
+		insidepoints,
         intersecting_simplices,
         intersectingvertices,
         IntersectionOfBoundaries,
@@ -65,6 +66,8 @@ export BarycentricCoordinates,
         subsample_coeffs,
         tensordecomp,
         volume,
-        VolumeComputation
+        VolumeComputation,
+		outsidepoint,
+		outsidepoints
 
 end
