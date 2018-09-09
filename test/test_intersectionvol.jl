@@ -1,4 +1,5 @@
-using Simplices, SimplexSplitting
+using Simplices
+using Simplices.SimplexSplitting
 
 """
     intersectiontest(dim::Int, n_reps::Int, intersection_type::String, tolerance::Float64)
