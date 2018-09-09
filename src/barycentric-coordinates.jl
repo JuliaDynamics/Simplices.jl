@@ -1,4 +1,5 @@
-function BarycentricCoordinates(simplex1::Array{Float64, 2}, simplex2::Array{Float64, 2},
+function BarycentricCoordinates(simplex1::AbstractArray{Float64, 2},
+								simplex2::AbstractArray{Float64, 2},
                                     orientation1::Float64, orientation2::Float64,
                                     tolerance::Float64)
     n = size(simplex1, 1)

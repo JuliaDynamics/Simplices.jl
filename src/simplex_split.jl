@@ -5,7 +5,7 @@
 """
 function simplex_split(k::Int, d::Int; orientations = false)
 
-    sequences::Array{Int, 2} = tensordecomposition(k, d)
+    sequences::Array{Int, 2} = tensordecomp(k, d)
     n_seq = size(sequences, 1)
 
     χ1 = sequences .* (d + 1)
