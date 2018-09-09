@@ -14,7 +14,6 @@ script:
   - julia --compilecache=no -e 'Pkg.clone(pwd()); Pkg.build("Simplices")'
   - julia -e 'ENV["PYTHON"] = ""; Pkg.build("PyCall")'
   - julia -e 'using Conda; Conda.add("scipy")'
-  - julia -e 'Pkg.clone("https://github.com/kahaaga/SimplexSplitting.jl")'
   - julia --compilecache=no -e 'Pkg.test("Simplices"; coverage=true)'
 
 after_success:

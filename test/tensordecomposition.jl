@@ -1,5 +1,3 @@
-using Simplices
-
 @testset "Tensor decomposition" begin
     @testset "k = $k" for k in 1:7
         @testset "p = $p" for p in 1:7
