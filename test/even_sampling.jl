@@ -1,5 +1,3 @@
-using SimplexSplitting
-
 function canonical_simplex_triangulation(; dim::Int = 3, split_factor::Int = 3)
     # Define vertices of canonical simplex
     canonical_simplex_vertices = zeros(dim + 1, dim)
@@ -13,8 +11,8 @@ function canonical_simplex_triangulation(; dim::Int = 3, split_factor::Int = 3)
         split_factor)
 
     points, simplex_inds = refined[1], refined[2]
-    centroids, radii = SimplexSplitting.centroids_radii2(points, simplex_inds)
-    orientations = SimplexSplitting.orientations(points, simplex_inds)
+    centroids, radii = Simplices.SimplexSplitting.centroids_radii2(points, simplex_inds)
+    orientations = Simplices.SimplexSplitting.orientations(points, simplex_inds)
     volumes = abs.(orientations)
 
     Triangulation(

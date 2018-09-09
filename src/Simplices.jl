@@ -4,11 +4,12 @@ module Simplices
 
 using Distributions
 
+include("simplexsplitting/SimplexSplitting.jl")
 include("barycentric-coordinates.jl")
 include("Binary.jl")
 include("Circumsphere.jl")
 include("complementary.jl")
-include("centroids_radii.jl")
+#include("centroids_radii.jl")
 include("embed.jl")
 include("geometry.jl")
 include("heaviside.jl")
@@ -18,17 +19,13 @@ include("init_functions.jl")
 include("NullSpace.jl")
 include("polytope-generating-vertices.jl")
 include("QR.jl")
-include("SimplexChecks.jl")
+include("simplexchecks.jl")
 include("shared-vertices.jl")
 include("sharing-a-face.jl")
 include("some-vertex-in-circumsphere.jl")
 include("simplexoperations.jl")
 include("simplexintersect.jl")
 include("simplex_sampling.jl")
-include("simplex_split.jl")
-include("simplex_subdivision.jl")
-include("simplex_subdivision_single.jl")
-include("simplexvolumes.jl")
 include("TriangulationPolytopeFaces.jl")
 include("TriangulationNonSimplicialFaces.jl")
 include("Update.jl")
@@ -44,7 +41,7 @@ export BarycentricCoordinates,
         even_sampling, even_sampling_rules, evenly_sample,
         heaviside,
         heaviside0,
-		insidepoints,
+	insidepoints,
         intersecting_simplices,
         intersectingvertices,
         IntersectionOfBoundaries,
@@ -60,6 +57,7 @@ export BarycentricCoordinates,
         SharedFaceVolume,
         SharedFaceVertices,
         shared_vertex_intersection,
+	SimplexSplitting,
         simplices_sharing_vertices,
         simplexintersection,
         SomeVertexInCircumsphere,
