@@ -19,10 +19,10 @@ include("init_functions.jl")
 include("NullSpace.jl")
 include("polytope-generating-vertices.jl")
 include("QR.jl")
-include("simplexchecks.jl")
 include("shared-vertices.jl")
 include("sharing-a-face.jl")
 include("some-vertex-in-circumsphere.jl")
+include("simplexchecks.jl")
 include("simplexoperations.jl")
 include("simplexintersect.jl")
 include("simplex_sampling.jl")
@@ -65,7 +65,7 @@ export BarycentricCoordinates,
         tensordecomp,
         volume,
         VolumeComputation,
-		outsidepoint,
-		outsidepoints
+	outsidepoint,
+	outsidepoints
 
 end
