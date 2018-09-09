@@ -39,12 +39,14 @@ end
 
 
 """
-    even_sampling_rules(dim::Int, split_factor::Int)
-We want to generate evenly distributed centroids within a simplex. To do this,
-we perform a shape-preserving splitting of the simplex. Given a splitting factor,
-this function returns the convex expansion coefficients of the centroids of the resulting subsimplices in terms of the vertices of the original simplex.
+    even_sampling_rules(dim::Int, split_factor::Int) -> Array{Float64, 2}
 
-This would be applied to simplices represented by (dim + 1)xdim-sized arrays.
+Generate rules for evenly distributed points within a simplex. To do this,
+we perform a shape-preserving splitting of the simplex, given a splitting
+factor.
+
+Returns the convex expansion coefficients of the points of the resulting
+subsimplices in terms of the vertices of the original simplex.
 """
 function even_sampling_rules(dim::Int, split_factor::Int)
 

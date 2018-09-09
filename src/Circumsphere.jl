@@ -6,10 +6,10 @@ simplex). Returns a column vector where the first entry is the radius of the cir
 and the remaining entries represent the centroid.
 
 """
-function Circumsphere(simplex::Array{Float64, 2})
+function Circumsphere(simplex)
     n::Int = size(simplex, 1) # Dimension of the space the simplex lives in
-    centroid::Array{Float64, 2} = simplex * ones(n + 1, 1) / (n + 1)
-    centroidmatrix::Array{Float64, 2} = repmat(centroid, 1, n + 1)
+    centroid = simplex * ones(n + 1, 1) / (n + 1)
+    centroidmatrix = repmat(centroid, 1, n + 1)
 
     radius::Float64 = sqrt(maximum(ones(1, n) * ((simplex - centroidmatrix).^2)))
 
