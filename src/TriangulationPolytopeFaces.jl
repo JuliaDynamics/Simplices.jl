@@ -7,7 +7,7 @@ polytope generators (vertices) in terms of the original simplices s₁ and s₂.
 
 `n` is the the dimension of the space, and `dim` number of generators of the polytope.
 """
-function TriangulationPolytopeFaces(βs::Array{Float64, 2}, n_generators::Int, dim::Int)
+function TriangulationPolytopeFaces(βs::AbstractArray{Float64, 2}, n_generators::Int, dim::Int)
     # We adopt the notations
     # NSF ≡ Nonsimplicial faces
     # APF ≡ All polytope faces.

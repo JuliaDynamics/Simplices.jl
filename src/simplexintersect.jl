@@ -18,20 +18,20 @@ all such combinations form a triangulation of Pᵢ.
 4. Calculate the volume of each simplex in the resulting triangulation. The
 sum of these volumes is the volume of the intersection.
 """
-function simplexintersection(S1::Array{Float64, 2}, S2::Array{Float64, 2}; tol::Float64 = 1/10^10)
+function simplexintersection(S1, S2; tol::Float64 = 1/10^10)
 
   # Dimension
-  const n = size(S1, 1)
+  n = size(S1, 1)
 
   # Centroid and radii
-  const c1 = Circumsphere(S1)[2:n+1]
-  const c2 = Circumsphere(S2)[2:n+1]
-  const r1 = Circumsphere(S1)[1]
-  const r2 = Circumsphere(S2)[1]
+  c1 = Circumsphere(S1)[2:n+1]
+  c2 = Circumsphere(S2)[2:n+1]
+  r1 = Circumsphere(S1)[1]
+  r2 = Circumsphere(S2)[1]
 
   # Orientation of simplices
-  const orientation_S1 = det([ones(1, n + 1); S1])
-  const orientation_S2 = det([ones(1, n + 1); S2])
+  orientation_S1 = det([ones(1, n + 1); S1])
+  orientation_S2 = det([ones(1, n + 1); S2])
 
   if abs(orientation_S1) < tol || abs(orientation_S2) < tol
     return 0
