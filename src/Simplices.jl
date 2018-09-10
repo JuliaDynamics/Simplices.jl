@@ -1,10 +1,10 @@
 __precompile__(true)
 
 module Simplices
-
 using LinearAlgebra
-using Distributions
 using Printf
+
+using Distributions
 
 include("simplexsplitting/SimplexSplitting.jl")
 include("barycentric-coordinates.jl")

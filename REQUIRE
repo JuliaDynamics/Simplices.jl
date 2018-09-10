@@ -1,6 +1,8 @@
-julia 0.6
+julia 0.7
 Distributions
 Parameters
 Conda
 PyCall
 StaticArrays
+LinearAlgebra
+Printf

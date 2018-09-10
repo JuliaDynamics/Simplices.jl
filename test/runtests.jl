@@ -1,8 +1,11 @@
 using Simplices
-using Test
-
 using Simplices: SimplexSplitting
+
+using Test
 using LinearAlgebra
+using Printf
+
+
 
 include("even_sampling.jl")
 include("test_delaunay.jl")
