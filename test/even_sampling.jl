@@ -1,7 +1,7 @@
 function canonical_simplex_triangulation(; dim::Int = 3, split_factor::Int = 3)
     # Define vertices of canonical simplex
     canonical_simplex_vertices = zeros(dim + 1, dim)
-    canonical_simplex_vertices[2:(dim+1), :] = eye(dim)
+    canonical_simplex_vertices[2:(dim+1), :] = Matrix(1.0I, dim, dim)
     simplex_indices = zeros(Int, 1, dim + 1)
     simplex_indices[1, :] = collect(1:dim+1)
 
@@ -34,7 +34,7 @@ end
 
     # Construct the centroids using the algebraic subsampling function
     canonical_simplex = zeros(dim + 1, dim)
-    canonical_simplex[2:(dim + 1), :] = eye(dim)
+    canonical_simplex[2:(dim + 1), :] = Matrix(1.0I, dim, dim)
 
     algebraic_centroids = evenly_sample(canonical_simplex, split_factor)
 

@@ -9,9 +9,9 @@ function simplex_split(k::Int, d::Int; orientations = false)
     n_seq = size(sequences, 1)
 
     χ1 = sequences .* (d + 1)
-    χ2 = repmat(collect(1:d).', n_seq, 1)
+    χ2 = repeat(transpose(collect(1:d)), n_seq, 1)
     χ::Array{Int, 2} = χ1 .+ χ2
-    χ = sort(χ, 2)
+    χ = sort(χ, dims=2)
 
     matrices_simplicial_subdivision::Array{Int, 2} = zeros((d + 1) * k^d, k)
 
@@ -35,7 +35,7 @@ function simplex_split(k::Int, d::Int; orientations = false)
         indices::Vector{Int} = ((d+1) * (i - 1) + 1):((d + 1) * i)
         Χi = matrices_simplicial_subdivision[indices, :]
 
-        ΔΧi = (Χi[2:(d+1), :] - Χi[1:d, :]) .* repmat(collect(1:k).', d, 1)
+        ΔΧi = (Χi[2:(d+1), :] - Χi[1:d, :]) .* repeat(transpose(collect(1:k)), d, 1)
 
         transition_ind = round.(Int, ΔΧi * ones(k, 1))
 

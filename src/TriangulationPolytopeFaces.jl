@@ -11,24 +11,24 @@ function TriangulationPolytopeFaces(βs::AbstractArray{Float64, 2}, n_generators
     # We adopt the notations
     # NSF ≡ Nonsimplicial faces
     # APF ≡ All polytope faces.
-    triang_NSF = Array{Int}(0, dim + 1)
-    triang_APF = Array{Int}(0, dim + 1)
+    triang_NSF = zeros(Int, 0, dim + 1)
+    triang_APF = zeros(Int, 0, dim + 1)
 
     faces_containing_intvers = βs[βs .== 0]
 
     # Find the faces containing intersecting vertices.
     faces_containing_intvers = zeros(Int, size(βs))
-    faces_containing_intvers[βs .== 0] = 1 # set zero convex parameters to 1
-    faces_containing_intvers[βs .> 0] = 0 # set positive convex parameters to 0
+    faces_containing_intvers[βs .== 0] .= 1 # set zero convex parameters to 1
+    faces_containing_intvers[βs .> 0] .= 0 # set positive convex parameters to 0
 
     # What is the number of intersecting points in each of the faces?
     n_intpoints_ineachface = ones(Int, 1, n_generators) * faces_containing_intvers
-    n_intpoints_ineachface = sum(faces_containing_intvers, 1)
+    n_intpoints_ineachface = sum(faces_containing_intvers, dims=1)
 
     # Indices of the potential faces of the polytope. Different indices might correspond
     # to the same face.
-    faceindices = heaviside0(n_intpoints_ineachface - dim).' .* (1:2*dim+2)
-    faceindices = find(faceindices)
+    faceindices = transpose(heaviside0(n_intpoints_ineachface .- dim)) .* (1:2*dim+2)
+    faceindices = (LinearIndices(faceindices))[findall(x->x!=0, faceindices)]
 
     # The number of faces of the intersecting volume polytope
     numofPolFaces = length(faceindices)
@@ -39,7 +39,7 @@ function TriangulationPolytopeFaces(βs::AbstractArray{Float64, 2}, n_generators
     # The indices of the intersecting points (in IntVert) furnishing each polytope face.
     # Array of dimension dim x numofPolFaces. Each column represents a potential polytope face.
     npts_eachface = faces_containing_intvers[:, faceindices] .*
-                            repmat(collect(1:n_generators), 1, numofPolFaces)
+                            repeat(collect(1:n_generators), 1, numofPolFaces)
 
 
     # Go through each faces and decide whether it is a true face or a boundary of a face.
@@ -56,7 +56,7 @@ function TriangulationPolytopeFaces(βs::AbstractArray{Float64, 2}, n_generators
         NumOfVertInEachFace = n_intpoints_ineachface[NSF_inds]
         NonSingularPointsInEachFace = npts_eachface[1:end, vec(NSF_inds)]
         # THe number of polytope faces that are actually simplices
-        Simplicial = vec(find(heaviside0(dim - NumOfVertInEachFace) .* collect(1:n_NSF)))
+        Simplicial = vec(findall(x->x!=0, heaviside0(dim .- NumOfVertInEachFace) .* collect(1:n_NSF)))
         NonSimplicialFaces = 0
 
         if length(Simplicial) == 0
@@ -70,7 +70,7 @@ function TriangulationPolytopeFaces(βs::AbstractArray{Float64, 2}, n_generators
             VerticesSFaces = NonSingularPointsInEachFace
             inner = reshape(VerticesSFaces, size(Simplicial, 1) * n_generators, 1)
             inner_nonzeros = inner[find(inner)]
-            inner_reshaped_transposed = (reshape(inner_nonzeros, dim, size(Simplicial, 1))).'
+            inner_reshaped_transposed = copy(transpose(reshape(inner_nonzeros, dim, size(Simplicial, 1))))
             VerticesSFaces = inner_reshaped_transposed
         else
             #println("Some polytope faces are simplices")
@@ -78,7 +78,7 @@ function TriangulationPolytopeFaces(βs::AbstractArray{Float64, 2}, n_generators
             VerticesSFaces = NonSingularPointsInEachFace[:, Simplicial]
             inner = reshape(VerticesSFaces, size(Simplicial, 1)*n_generators, 1)
 
-            inner_nonzeros = inner[find(inner)]
+            inner_nonzeros = inner[(LinearIndices(inner))[findall(x->x!=0, inner)]]
             inner_reshaped_transposed = transpose(reshape(inner_nonzeros, dim, size(Simplicial, 1)))
             VerticesSFaces = inner_reshaped_transposed
             NonSimplicial = complementary(Simplicial, n_NSF)
@@ -89,7 +89,7 @@ function TriangulationPolytopeFaces(βs::AbstractArray{Float64, 2}, n_generators
             #println("One or more nonsimplical faces.")
             VerticesNSFaces = NonSingularPointsInEachFace[:, NonSimplicial]
             SimplexIndexNS = round.(Int64, ceil.(NonSimplicialFaces / (dim + 1)))
-            SimplexFaceIndexNS = round.(Int64, NonSimplicialFaces - (SimplexIndexNS - 1) * (dim + 1))
+            SimplexFaceIndexNS = round.(Int64, NonSimplicialFaces .- (SimplexIndexNS .- 1) * (dim + 1))
             #t1 = time_ns()
             triang_NSF = TriangulationNonSimplicialFaces(VerticesNSFaces, SimplexIndexNS, SimplexFaceIndexNS, βs, dim)
             #t2 = time_ns()
@@ -106,7 +106,7 @@ end
 
 
 
-"""x
+"""
 Go through each faces and decide whether it is a true face or a boundary of a face.
 Returns a vector of length equal to the number of faces in the intersecting polytope.
 The ith entry of this vector is _i_ if the corresponding face is a true face, 0 otherwise.
@@ -121,8 +121,8 @@ function classify_faces(numofPolFaces::Int,
 
     # Loop over faces.
     for faceindex = 1:numofPolFaces
-        inds = find(npts_eachface[:, faceindex])
-        Aux = heaviside0(-sum(βs[inds, :], 1))
+        inds = findall(x->x!=0, npts_eachface[:, faceindex])
+        Aux = heaviside0(-sum(βs[inds, :], dims=1))
         multiplicity = [Aux * ones(2*dim + 2, 1);
                         Aux * [ones(dim + 1, 1);
                         2 * ones(dim + 1, 1)]]

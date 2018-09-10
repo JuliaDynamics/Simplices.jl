@@ -11,8 +11,8 @@
 #
 # end
 
-function IntersectionOfBoundaries_NoStorage(s₁::Array{Float64, 2},
-                                    s₂::Array{Float64, 2},
+function IntersectionOfBoundaries_NoStorage(s₁,
+                                    s₂,
                                     convexexp1in2::Array{Float64, 2},
                                     convexexp2in1::Array{Float64, 2},
                                     ordered_vertices1::Vector{Int},
@@ -23,9 +23,9 @@ function IntersectionOfBoundaries_NoStorage(s₁::Array{Float64, 2},
                                     tol::Float64)
 
     n = size(s₁, 1)
-    IntVert = Vector{Float64}(0)
-    ConvexExpIntVert = Vector{Float64}(0)
-    Z = Array{Float64}(2*n+2, 1)
+    IntVert = zeros(Float64, 0)
+    ConvexExpIntVert = zeros(Float64, 0)
+    Z = zeros(Float64, 2*n+2, 1)
 
     Indices = 1:n+1
 
@@ -53,33 +53,34 @@ function IntersectionOfBoundaries_NoStorage(s₁::Array{Float64, 2},
                             r = num_vert1
                             s = num_vert2
                             TargetVertices = view(s₂, :, :)
-                            ReferenceBoundary = view(ordered_vertices1, Indices[find(b1)])
-                            TargetBoundary = view(ordered_vertices2, Indices[find(b2)])
+                            ReferenceBoundary = view(ordered_vertices1, Indices[findall(x->x!=0, b1)])
+                            TargetBoundary = view(ordered_vertices2, Indices[findall(x->x!=0, b2)])
                             beta = view(convexexp2in1, :, :)
                             Gamma = view(convexexp2in1, setdiff(1:n+1,ReferenceBoundary), TargetBoundary)
                             Rank = rank(Gamma)
                             Rank0 = rank([Gamma; ones(1, s)])
-                            no_vanishing_column = minimum(maximum(abs.(Gamma),1))
+                            no_vanishing_column = minimum(maximum(abs.(Gamma), dims=1))
                             Switch = 0
                         else
                             s = num_vert1
                             r = num_vert2
                             TargetVertices = view(s₁,:,:)
-                            ReferenceBoundary = view(ordered_vertices2, Indices[find(b2)])
-                            TargetBoundary = view(ordered_vertices1, Indices[find(b1)])
+                            ReferenceBoundary = view(ordered_vertices2, Indices[findall(x->x!=0, b2)])
+                            TargetBoundary = view(ordered_vertices1, Indices[findall(x->x!=0, b1)])
                             beta = view(convexexp1in2, :, :)
                             Gamma = view(convexexp1in2, setdiff(1:n+1,ReferenceBoundary), TargetBoundary)
                             Rank= rank(Gamma)
                             Rank0 = rank([Gamma;ones(1,s)])
-                            no_vanishing_column = minimum(maximum(abs.(Gamma),1))
+                            no_vanishing_column = minimum(maximum(abs.(Gamma), dims=1))
                             Switch = 1
                         end
 
                         if Rank0-Rank == 1 && Rank == s-1 && no_vanishing_column > 0
                             lambda = QR(Gamma, tol)
-                            alpha = [1 - ones(Int,1,r-1)*view(beta,ReferenceBoundary[2:r],TargetBoundary) ; view(beta,ReferenceBoundary[2:r],TargetBoundary)]*lambda
-                            alpha[abs.(alpha) .<= tol] = 0
-                            if min(minimum(alpha), minimum(lambda)) > 0 && sum(find(alpha)) > 1
+                            alpha = [1 .- ones(Int,1,r-1)*view(beta,ReferenceBoundary[2:r],TargetBoundary) ;
+                                    view(beta,ReferenceBoundary[2:r],TargetBoundary)]*lambda
+                            alpha[abs.(alpha) .<= tol] .= 0
+                            if min(minimum(alpha), minimum(lambda)) > 0 && sum(findall(x->x!=0, alpha))[1] > 1
                                 # Filtering out non minimal boundaries
                                 NewPoint = view(TargetVertices,:,TargetBoundary)*lambda
                                 append!(IntVert,NewPoint)
@@ -101,7 +102,8 @@ function IntersectionOfBoundaries_NoStorage(s₁::Array{Float64, 2},
         end
     end
 
-    return reshape(IntVert, n, div(length(IntVert), n)).', reshape(ConvexExpIntVert, 2*n+2, div(length(ConvexExpIntVert), 2*n+2)).'
+    return copy(transpose(reshape(IntVert, n, div(length(IntVert), n)))),
+        copy(transpose(reshape(ConvexExpIntVert, 2*n+2, div(length(ConvexExpIntVert), 2*n+2))))
 end
 
 

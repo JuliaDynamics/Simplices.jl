@@ -46,7 +46,7 @@ function simplexintersection(S1, S2; tol::Float64 = 1/10^10)
 
   # If the (distance between centroids)^2-(sum of radii)^2 < 0,
   # then the simplices intersect in some way.
-  dist_difference::Float64 = ((c1 - c2).' * (c1 - c2) - (r1 + r2)^2)[1]
+  dist_difference::Float64 = (transpose(c1 - c2) * (c1 - c2) - (r1 + r2)^2)[1]
 
   if dist_difference < 0
     # Find the number of points of each simplex contained within the
@@ -63,8 +63,8 @@ function simplexintersection(S1, S2; tol::Float64 = 1/10^10)
       βs1in2, βs2in1, ordered_vertices1, ordered_vertices2, numof1in2, numof2in1 =
         BarycentricCoordinates(S1,S2,orientation_S1,orientation_S2,tol)
       # Trivial intersections
-      TriviallyContained = heaviside0([numof1in2 numof2in1] - (n+1))
-      IsSomeContained = sum(TriviallyContained, 2)[1]
+      TriviallyContained = heaviside0([numof1in2 numof2in1] .- (n+1))
+      IsSomeContained = sum(TriviallyContained, dims=2)[1]
 
       if IsSomeContained == 2.0 # The simplices coincide
         IntVol = abs(orientation_S1)
@@ -79,6 +79,7 @@ function simplexintersection(S1, S2; tol::Float64 = 1/10^10)
         #print("SharedVertices\t\t\t")
 
         Ncomm, ordered_vertices1, ordered_vertices2 = SharedVertices(βs1in2,ordered_vertices1,ordered_vertices2,numof1in2,numof2in1)
+
         # Is there any shared face?
         if Ncomm == n
           #print("The simplices share a face\t")
@@ -87,8 +88,12 @@ function simplexintersection(S1, S2; tol::Float64 = 1/10^10)
           #println("\nThe simplices do not share a face")
           #print("Intersection of boundaries\t")
           #@time IntVert, ConvexExpIntVert  = IntersectionOfBoundaries(S1,S2,βs1in2,βs2in1, ordered_vertices1, ordered_vertices2, numof1in2, numof2in1, Ncomm, tolerance)
-
           IntVert, ConvexExpIntVert = IntersectionOfBoundaries_NoStorage(S1,S2,βs1in2,βs2in1, ordered_vertices1, ordered_vertices2, numof1in2, numof2in1, Ncomm, tol)
+          #@show IntVert, ConvexExpIntVert
+          #@show βs1in2,βs2in1
+          #@show ordered_vertices1,ordered_vertices2
+          #@show numof1in2,numof2in1
+          #@show Ncomm
           if !isempty(IntVert)
             #print("PolytopeGeneratingVertices\t")
 
@@ -111,17 +116,17 @@ end
 function intersectingvertices(S1::Array{Float64, 2}, S2::Array{Float64, 2}; tolerance::Float64 = 1/10^10, what = "volume")
 
   # Dimension
-  const n = size(S1, 1)
+  n = size(S1, 1)
 
   # Centroid and radii
-  const c1 = Circumsphere(S1)[2:n+1]
-  const c2 = Circumsphere(S2)[2:n+1]
-  const r1 = Circumsphere(S1)[1]
-  const r2 = Circumsphere(S2)[1]
+  c1 = Circumsphere(S1)[2:n+1]
+  c2 = Circumsphere(S2)[2:n+1]
+  r1 = Circumsphere(S1)[1]
+  r2 = Circumsphere(S2)[1]
 
   # Orientation of simplices
-  const orientation_S1 = det([ones(1, n + 1); S1])
-  const orientation_S2 = det([ones(1, n + 1); S2])
+  orientation_S1 = det([ones(1, n + 1); S1])
+  orientation_S2 = det([ones(1, n + 1); S2])
 
   if abs(orientation_S1) < tolerance || abs(orientation_S2) < tolerance
     return Float64[]
@@ -129,7 +134,7 @@ function intersectingvertices(S1::Array{Float64, 2}, S2::Array{Float64, 2}; tole
 
   # If the (distance between centroids)^2-(sum of radii)^2 < 0,
   # then the simplices intersect in some way.
-  dist_difference::Float64 = ((c1 - c2).' * (c1 - c2) - (r1 + r2)^2)[1]
+  dist_difference::Float64 = (transpose(c1 - c2) * (c1 - c2) - (r1 + r2)^2)[1]
 
   if dist_difference < 0
     # Find the number of points of each simplex contained within the
@@ -147,18 +152,18 @@ function intersectingvertices(S1::Array{Float64, 2}, S2::Array{Float64, 2}; tole
 
       # Trivial intersections
       TriviallyContained = heaviside0([numof1in2 numof2in1] - (n+1))
-      IsSomeContained = sum(TriviallyContained, 2)[1]
+      IsSomeContained = sum(TriviallyContained, dims=2)[1]
 
       if IsSomeContained == 2.0 # The simplices coincide
         println("# The simplices coincide")
-        return S1.'
+        return copy(transpose(S1))
       elseif IsSomeContained == 1.0 # One simplex is contained in the other
         if TriviallyContained[1] == 1.0 # Simplex1 is contained in Simplex2
           println("Simplex1 is contained in Simplex2")
-          return S1.'
+          return copy(transpose(S1))
         else # Simplex2 is contained in Simplex1
           println("Simplex2 is contained in Simplex1")
-          return S2.'
+          return copy(transpose(S2))
         end
       else # No simplex contains the other
         Ncomm, ordered_vertices1, ordered_vertices2 = SharedVertices(βs1in2,ordered_vertices1,ordered_vertices2,numof1in2,numof2in1)
@@ -204,7 +209,7 @@ function intersection(S1::Array{Float64, 2}, S2::Array{Float64, 2},
 
   # If the (distance between centroids)^2-(sum of radii)^2 < 0,
   # then the simplices intersect in some way.
-  dist_difference::Float64 = ((c1 - c2).' * (c1 - c2) - (r1 + r2)^2)[1]
+  dist_difference::Float64 = (transpose(c1 - c2) * (c1 - c2) - (r1 + r2)^2)[1]
 
   if dist_difference < 0
     # Find the number of points of each simplex contained within the
@@ -271,7 +276,7 @@ function simplexintersection(S1::Array{Float64, 2},
                             orientation_S2::Float64)
   tolerance::Float64 = 1/10^10
   # Dimension
-  const n = size(S1, 1)
+  n = size(S1, 1)
 
   if abs(orientation_S1) < tolerance || abs(orientation_S2) < tolerance
     return 0
@@ -286,7 +291,7 @@ function simplexintersection(S1::Array{Float64, 2},
 
   # If the (distance between centroids)^2-(sum of radii)^2 < 0,
   # then the simplices intersect in some way.
-  dist_difference::Float64 = ((c1 - c2).' * (c1 - c2) - (r1 + r2)^2)[1]
+  dist_difference::Float64 = (transpose(c1 - c2) * (c1 - c2) - (r1 + r2)^2)[1]
 
   if dist_difference < 0
     # Find the number of points of each simplex contained within the
@@ -304,7 +309,7 @@ function simplexintersection(S1::Array{Float64, 2},
 
       # Trivial intersections
       TriviallyContained = heaviside0([numof1in2 numof2in1] - (n+1))
-      IsSomeContained = sum(TriviallyContained, 2)[1]
+      IsSomeContained = sum(TriviallyContained, dims=2)[1]
 
       if IsSomeContained == 2.0 # The simplices coincide
         IntVol = abs(orientation_S1)
@@ -366,7 +371,7 @@ function intersection2(S1::Array{Float64, 2}, S2::Array{Float64, 2},
 
   # If the (distance between centroids)^2-(sum of radii)^2 < 0,
   # then the simplices intersect in some way.
-  dist_difference::Float64 = ((c1 - c2).' * (c1 - c2) - (r1 + r2)^2)[1]
+  dist_difference::Float64 = (transpose(c1 - c2) * (c1 - c2) - (r1 + r2)^2)[1]
 
   if dist_difference < 0
     # Find the number of points of each simplex contained within the
@@ -382,7 +387,7 @@ function intersection2(S1::Array{Float64, 2}, S2::Array{Float64, 2},
 
       # Trivial intersections
       TriviallyContained = heaviside0([numof1in2 numof2in1] - (n+1))
-      IsSomeContained = sum(TriviallyContained, 2)[1]
+      IsSomeContained = sum(TriviallyContained, dims=2)[1]
 
       if IsSomeContained == 2.0 # The simplices coincide
         IntVol = abs(orientation_S1)

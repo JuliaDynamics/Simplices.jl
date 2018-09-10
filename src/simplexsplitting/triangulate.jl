@@ -17,18 +17,18 @@ end
 """
 @with_kw mutable struct Triangulation
     # The vertices of the triangulation
-    points::Array{Float64, 2} = Array{Float64, 2}(0, 0)
+    points::Array{Float64, 2} = zeros(Float64, 0, 0)
 
     # The image vertices of the triangulation
-    impoints::Array{Float64, 2} = Array{Float64, 2}(0, 0)
+    impoints::Array{Float64, 2} = zeros(Float64, 0, 0)
 
     # Array of indices referencing the vertices furnishing each simplex
-    simplex_inds::Array{Int, 2} = Array{Float64, 2}(0, 0)
+    simplex_inds::Array{Int, 2} = zeros(Float64, 0, 0)
 
     # Some properties of the simplices furnishing the triangulation
-    centroids::Array{Float64, 2} = Array{Float64, 2}(0, 0)
+    centroids::Array{Float64, 2} = zeros(Float64, 0, 0)
     radii::Vector{Float64} = Float64[]
-    centroids_im::Array{Float64, 2}  = Array{Float64, 2}(0, 0)
+    centroids_im::Array{Float64, 2}  = zeros(Float64, 0, 0)
     radii_im::Vector{Float64} = Float64[]
     orientations::Vector{Float64} = Float64[]
     orientations_im::Vector{Float64} = Float64[]
@@ -163,7 +163,7 @@ function maybeintersecting_simplices(t::Triangulation, image_i::Int)
     n_simplices = length(t.radii)
 
     @inbounds for i = 1:n_simplices
-        dist_difference = ((t.centroids_im[image_i] - t.centroids[i]).' *
+        dist_difference = (transpose(t.centroids_im[image_i] - t.centroids[i]) *
                             (t.centroids_im[image_i] - t.centroids[i]) - (t.radii_im[image_i] + t.radii[i])^2)[1]
         if dist_difference < 0
             push!(inds_potential_simplices, i)
@@ -183,7 +183,7 @@ function maybeintersecting_imsimplices(t::Triangulation, orig_i::Int)
     n_simplices = length(t.radii)
 
     @inbounds for i = 1:n_simplices
-        dist_difference = ((t.centroids[orig_i] - t.centroids_im[i]).' *
+        dist_difference = (transpose(t.centroids[orig_i] - t.centroids_im[i]) *
                             (t.centroids[orig_i] - t.centroids_im[i]) - (t.radii[orig_i] + t.radii_im[i])^2)[1]
         if dist_difference < 0
             push!(inds_potential_simplices, i)

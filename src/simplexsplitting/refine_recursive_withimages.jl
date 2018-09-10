@@ -12,7 +12,6 @@ it, as follows:
 
 (points, image_points, simplex_inds, centroids, centroids_im, radii, radii_im, simplexvolumes, imagevolumes)
 """
-
 function refine_recursive_images(points, image_points, simplex_inds, maxsize, k; niter = 1)
     if niter == 1
         println(size(points, 2), "D triangulation containing ", size(simplex_inds, 1), " simplices.")
@@ -126,8 +125,8 @@ function refine_recursive_images(points, image_points, simplex_inds, maxsize, k;
             original_vertices = vertices[rules[j, :], :]
             original_vertices_image = imagevertices[rules[j, :], :]
 
-            new_points[ind_newvertex, :] = sum(original_vertices, 1) ./ k
-            new_imagepoints[ind_newvertex, :] = sum(original_vertices_image, 1) ./ k
+            new_points[ind_newvertex, :] = sum(original_vertices, dims=1) ./ k
+            new_imagepoints[ind_newvertex, :] = sum(original_vertices_image, dims=1) ./ k
 
         end
     end

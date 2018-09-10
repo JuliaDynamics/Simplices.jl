@@ -1,7 +1,8 @@
 using Simplices
-using Base.Test
+using Test
 
-using Simplices.SimplexSplitting
+using Simplices: SimplexSplitting
+using LinearAlgebra
 
 include("even_sampling.jl")
 include("test_delaunay.jl")

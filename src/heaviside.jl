@@ -5,7 +5,7 @@ func_name1 = Symbol(string("heaviside"))
 
 # generate heaviside functions for variably sized arrays
 for t in 1:5
-    @eval function $(func_name1){T<:Number}(v::AbstractArray{T, $t})
+    @eval function $(func_name1)(v::AbstractArray{T, $t}) where T <: Number
         h = similar(v)
         for i in eachindex(v)
             h[i] = heaviside(v[i])
@@ -14,7 +14,7 @@ for t in 1:5
     end
 end
 
-@eval function $(func_name1){T<:Number}(v::Vector{T})
+@eval function $(func_name1)(v::Vector{T}) where T <: Number
     h = similar(v)
     for i in eachindex(v)
         h[i] = heaviside(v[i])
@@ -22,7 +22,7 @@ end
     return(h)
 end
 
-@eval function $(func_name1){T<:Number}(v::RowVector{T})
+@eval function $(func_name1)(v::RowVector{T}) where T <: Number
     h = similar(v)
     for i in eachindex(v)
         h[i] = heaviside(v[i])
@@ -34,7 +34,7 @@ func_name2 = Symbol(string("heaviside0"))
 
 # generate heaviside0 functions for variably sized arrays
 for t in 1:5
-    @eval function $(func_name2){T<:Number}(v::AbstractArray{T, $t})
+    @eval function $(func_name2)(v::AbstractArray{T, $t}) where T <: Number
         h = similar(v)
         for i in eachindex(v)
             h[i] = heaviside0(v[i])
@@ -43,7 +43,7 @@ for t in 1:5
     end
 end
 
-@eval function $(func_name2){T<:Number}(v::Vector{T})
+@eval function $(func_name2)(v::Vector{T}) where T <: Number
     h = similar(v)
     for i in eachindex(v)
         h[i] = heaviside0(v[i])
@@ -51,7 +51,7 @@ end
     return(h)
 end
 
-@eval function $(func_name2){T<:Number}(v::RowVector{T})
+@eval function $(func_name2)(v::RowVector{T}) where T <: Number
     h = similar(v)
     for i in eachindex(v)
         h[i] = heaviside0(v[i])

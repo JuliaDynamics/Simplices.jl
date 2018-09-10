@@ -1,4 +1,3 @@
-using Distributions
 include("even_sampling.jl")
 
 """
@@ -21,12 +20,12 @@ function subsample_coeffs(dim::Int, n_randpts::Int, sample_randomly::Bool)
     # Create a set of convex coefficients to be used for all simplices
     if sample_randomly
         convex_coeffs = rand(Distributions.Uniform(0, 1), n_randpts, dim + 1)
-        convex_coeffs .= convex_coeffs ./ sum(convex_coeffs, 2)
+        convex_coeffs .= convex_coeffs ./ sum(convex_coeffs, dims=2)
     else
         minimum_split_factor = ceil(Int, n_randpts^(1 / dim))[1]
-        convex_coeffs = even_sampling_rules(dim, minimum_split_factor).'
+        convex_coeffs = copy(transpose(even_sampling_rules(dim, minimum_split_factor)))
     end
-    convex_coeffs.'
+     copy(transpose(convex_coeffs))
 end
 
 
@@ -44,7 +43,7 @@ function childpoint(parentsimplex::AbstractArray{Float64, 2})
     # Normalise the coefficients so that they sum to one. We can then create
 	# the new point as a convex linear combination of the vertices of the parent
 	# simplex.
-    R = (1 ./ sum(R, 2)) .* R
+    R = (1 ./ sum(R, dims=2)) .* R
 
     R * parentsimplex
 end
@@ -62,7 +61,7 @@ function childpoint(parentsimplex::AbstractArray{Float64, 2}, dim::Int)
     # Normalise the coefficients so that they sum to one. We can then create
 	# the new point as a convex linear combination of the vertices of the parent
 	# simplex.
-    R = (1 ./ sum(R, 2)) .* R
+    R = (1 ./ sum(R, dims=2)) .* R
 
     R * parentsimplex
 end
@@ -81,7 +80,7 @@ function childpoints(parent_simplex::AbstractArray{Float64, 2}, n::Int)
     # Normalise the coefficients so that they sum to one. We can then create
     # the new point
     # as a convex linear combination of the vertices of the parent simplex.
-    normalised_coeffs = (1 ./ sum(R, 2)) .* R
+    normalised_coeffs = (1 ./ sum(R, dims=2)) .* R
 
     normalised_coeffs * parent_simplex
 end
@@ -98,7 +97,7 @@ function outsidepoint(parentsimplex::AbstractArray{Float64, 2})
 
     # Normalise the coefficients so that they sum to one. We can then create the new point
     # as a convex linear combination of the vertices of the parent simplex.
-    normalised_coeffs = (1 ./ sum(R, 2)) .* R
+    normalised_coeffs = (1 ./ sum(R, dims=2)) .* R
     normalised_coeffs[1] += 1
 
     normalised_coeffs * parentsimplex

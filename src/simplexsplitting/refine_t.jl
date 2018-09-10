@@ -66,8 +66,8 @@ function refine_t!(t::Triangulation, split_indices::Vector{Int}, k::Int)
             original_vertices = vertices[rules[j, :], :]
             original_vertices_image = imagevertices[rules[j, :], :]
 
-            new_vertices[ind_newvertex, :] = sum(original_vertices, 1) ./ k
-            new_imagevertices[ind_newvertex, :] = sum(original_vertices_image, 1) ./ k
+            new_vertices[ind_newvertex, :] = sum(original_vertices, dims=1) ./ k
+            new_imagevertices[ind_newvertex, :] = sum(original_vertices_image, dims=1) ./ k
 
         end
     end
@@ -217,8 +217,8 @@ function refine_t(t::Triangulation, split_indices::Vector{Int}, k::Int)
             original_vertices = vertices[rules[j, :], :]
             original_vertices_image = imagevertices[rules[j, :], :]
 
-            new_vertices[ind_newvertex, :] = sum(original_vertices, 1) ./ k
-            new_imagevertices[ind_newvertex, :] = sum(original_vertices_image, 1) ./ k
+            new_vertices[ind_newvertex, :] = sum(original_vertices, dims=1) ./ k
+            new_imagevertices[ind_newvertex, :] = sum(original_vertices_image, dims=1) ./ k
 
         end
     end

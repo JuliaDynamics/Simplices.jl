@@ -2,7 +2,7 @@
 """
 Contains the results of
 """
-type RefinementQuery
+struct RefinementQuery
     # The points (vertices) in the original simplex space
     points::Array{Float64, 2}
 
@@ -106,7 +106,7 @@ end
 
 Stores information about a potential splitting of a triangulation.
 """
-type SplitInfo
+struct SplitInfo
     # Indices of the simplices that are too large
     inds_toolarge::Vector{Int}
 
@@ -158,7 +158,7 @@ end
 Stores the simplex splitting rules (a result of a `simplicial_subdivision(dim, k)` call)
 for a given dimension and splitting factor.
 """
-type SplitRules
+struct SplitRules
     rules::Array{Int, 2}
     indices::Array{Int, 2}
 end

@@ -7,7 +7,7 @@ the simplices are formed from the vertices.
 function orientations(points::AbstractArray{Float64, 2}, simplex_inds::AbstractArray{Int, 2})
     n_simplices = size(simplex_inds, 1)
     dim = size(simplex_inds, 2) - 1
-    orientations = Vector{Float64}(n_simplices)
+    orientations = zeros(Float64, n_simplices)
 
     for i = 1:n_simplices
         orientations[i] = det(hcat(view(points, view(simplex_inds, i, :), :), ones(dim + 1)))

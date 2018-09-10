@@ -34,7 +34,7 @@ radius::Float64  The radius of the simplex.
 """
 function squaredradius(simplex)
     n = size(simplex)[1]
-    C1 = repmat(centroid(simplex), 1, (n + 1))
+    C1 = repeat(centroid(simplex), 1, (n + 1))
     radius = maximum(ones(1, n) * ((simplex - C1)))^2
     return(radius::Float64)
 end
