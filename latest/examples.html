@@ -2,17 +2,17 @@
 <html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Examples · Simplices.jl</title><link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css" rel="stylesheet" type="text/css"/><link href="https://fonts.googleapis.com/css?family=Lato|Roboto+Mono" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.2.0/require.min.js" data-main="assets/documenter.js"></script><script src="siteinfo.js"></script><script src="../versions.js"></script><link href="assets/documenter.css" rel="stylesheet" type="text/css"/></head><body><nav class="toc"><h1>Simplices.jl</h1><select id="version-selector" onChange="window.location.href=this.value" style="visibility: hidden"></select><form class="search" id="search-form" action="search.html"><input id="search-query" name="q" type="text" placeholder="Search docs"/></form><ul><li><a class="toctext" href="index.html">Overview</a></li><li><a class="toctext" href="simplexproperties.html">Properties of simplices</a></li><li><span class="toctext">Simplex intersection</span><ul><li><a class="toctext" href="simplexintersection.html">How to calculate intersections?</a></li><li><a class="toctext" href="generatesimplices.html">Generate intersecting simplices</a></li><li class="current"><a class="toctext" href="examples.html">Examples</a><ul class="internal"><li><a class="toctext" href="#Examples-1">Examples</a></li></ul></li></ul></li><li><a class="toctext" href="funcs.html">Function reference</a></li></ul></nav><article id="docs"><header><nav><ul><li>Simplex intersection</li><li><a href="examples.html">Examples</a></li></ul><a class="edit-page" href="https://github.com/kahaaga/Simplices.jl/blob/master/docs/src/examples.md"><span class="fa"></span> Edit on GitHub</a></nav><hr/><div id="topbar"><span>Examples</span><a class="fa fa-bars" href="#"></a></div></header><h2><a class="nav-anchor" id="Examples-1" href="#Examples-1">Examples</a></h2><p>We&#39;ll use a few of the functions used for testing the package to demonstrate its usage. These are</p><ol><li><p><code>simplices_sharing_vertices</code>. Generate a set of simplices which intersect in some arbitrary way, but sharing at least one vertex.</p></li><li><p><code>nontrivially_intersecting_simplices</code>. Generate a set of non-trivially intersecting simplices (i.e. intersections are not only along boundaries or vertices).</p></li><li><p><code>childsimplex(parentsimplex)</code>. Generate a simplex completely contained within <code>parentsimplex</code>.</p></li></ol><p>Note that these functions take as inputs simplices of shape <code>(dim + 1, dim)</code>. This will be fixed in a future release.</p><p>In the examples, some of the functions used to generate simplices return the simplex arrays with rows as columns. Therefore, we transpose the simplices before calling <a href="funcs.html#Simplices.simplexintersection-Tuple{Array{Float64,2},Array{Float64,2}}"><code>simplexintersection</code></a>.</p><h3><a class="nav-anchor" id="Simplices-sharing-vertices-1" href="#Simplices-sharing-vertices-1">Simplices sharing vertices</a></h3><p>Let&#39;s compute the intersection between a set of simplices that share at least one vertex.</p><pre><code class="language-julia-repl">julia&gt; using Simplices
 
 julia&gt; s₁, s₂ = transpose.(simplices_sharing_vertices(3))
-([0.855623 0.00595726 0.726233 0.761129; 0.922421 0.186012 0.287496 0.0360663; 0.115816 0.560822 0.00118388 0.162722], [0.00595726 0.855623 0.00595726 1.34088; 0.186012 0.922421 0.186012 1.39673; 0.560822 0.115816 0.560822 0.403766])
+([0.951433 0.259617 0.893513 0.48686; 0.95113 0.411 0.886692 0.254757; 0.201369 0.472681 0.748146 0.698057], [0.951433 0.259617 0.259617 1.79117; 0.95113 0.411 0.411 1.77908; 0.201369 0.472681 0.472681 0.720642])
 
 
 julia&gt; simplexintersection(s₁, s₂)
 0</code></pre><h3><a class="nav-anchor" id="Nontrivially-intersecting-simplices-1" href="#Nontrivially-intersecting-simplices-1">Nontrivially intersecting simplices</a></h3><p>Simplices can also intersect in nontrivial ways, meaning that they have an  intersection beyond a common boundary or vertex.</p><pre><code class="language-julia-repl">julia&gt; using Simplices
 
 julia&gt; s₁, s₂ = transpose.(nontrivially_intersecting_simplices(3))
-([0.459733 0.525852 0.420603 0.603593; 0.694449 0.580582 0.57948 0.550426; 0.303499 0.949447 0.319449 0.362601], [0.493794 0.962174 0.963861 0.937045; 0.599556 1.3074 1.29025 1.30347; 0.533982 0.710975 0.777405 0.719716])
+([0.215267 0.43247 0.964014 0.400058; 0.0217042 0.493373 0.11949 0.735913; 0.623598 0.0976129 0.352844 0.307555], [0.506924 0.469875 0.596548 0.774006; 0.299207 0.262781 0.31901 0.512881; 0.430211 0.338139 0.298607 0.883139])
 
 julia&gt; simplexintersection(s₁, s₂)
-6.646500174738308e-8</code></pre><h3><a class="nav-anchor" id="One-simplex-fully-contained-within-the-other-1" href="#One-simplex-fully-contained-within-the-other-1">One simplex fully contained within the other</a></h3><p>We&#39;ll generate a random simplex s₁, then generate a simplex s₂ fully contained within that simplex. If s₂ is fully contained, the intersection volume should be the volume of s₂.</p><pre><code class="language-julia-repl">julia&gt; using Simplices
+3.0293190862369105e-5</code></pre><h3><a class="nav-anchor" id="One-simplex-fully-contained-within-the-other-1" href="#One-simplex-fully-contained-within-the-other-1">One simplex fully contained within the other</a></h3><p>We&#39;ll generate a random simplex s₁, then generate a simplex s₂ fully contained within that simplex. If s₂ is fully contained, the intersection volume should be the volume of s₂.</p><pre><code class="language-julia-repl">julia&gt; using Simplices
 
 
 julia&gt; Ds =  2:10;
@@ -30,15 +30,15 @@ julia&gt; for i = 1:length(Ds)
 
 julia&gt; hcat(intersection_vols, analytical_vols)
 9×2 Array{Float64,2}:
- 0.00981199   0.00981199
- 0.000310221  0.000310221
- 2.52424e-6   2.52424e-6
- 3.4686e-6    3.4686e-6
- 3.55593e-7   3.55593e-7
- 3.04896e-10  3.04896e-10
- 0.0          2.02634e-11
- 1.42115e-10  1.42115e-10
- 0.0          3.60741e-12
+ 0.00765691   0.00765691
+ 0.00364464   0.00364464
+ 1.50729e-8   1.50729e-8
+ 1.2903e-9    1.2903e-9
+ 1.15662e-6   1.15662e-6
+ 1.05437e-8   1.05437e-8
+ 1.98688e-10  1.98688e-10
+ 0.0          9.42693e-13
+ 0.0          1.03137e-12
 
 
 
