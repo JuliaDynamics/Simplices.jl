@@ -15,8 +15,7 @@ script:
   #Pkg.add("PyCall"); Pkg.add("Conda")'
   #- julia -e 'ENV["PYTHON"] = ""; Pkg.build("PyCall")'
   #- julia -e 'using Conda; Conda.add("scipy")'
-  - julia -e 'Pkg.build("Simplices")'
-  - julia -e 'Pkg.test("Simplices"; coverage=true)'
+  #- julia -e 'Pkg.test("Simplices"; coverage=true)'
 
 #after_success:
   # push coverage results to Coveralls
