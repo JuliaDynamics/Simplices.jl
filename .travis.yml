@@ -12,10 +12,10 @@ julia:
 script:
 #  - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
   - test $TRAVIS_OS_NAME = "linux" && julia -e 'using Pkg; ENV["PYTHON"]=""; py="PyCall"; Pkg.add(py); Pkg.build();'
-  #Pkg.add("PyCall"); Pkg.add("Conda")'
   #- julia -e 'ENV["PYTHON"] = ""; Pkg.build("PyCall")'
   #- julia -e 'using Conda; Conda.add("scipy")'
-  #- julia -e 'Pkg.test("Simplices"; coverage=true)'
+  - julia test/runtests.jl
+
 
 #after_success:
   # push coverage results to Coveralls
