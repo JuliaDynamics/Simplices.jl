@@ -11,10 +11,11 @@ julia:
 # uncomment the following lines to override the default test script
 script:
 #  - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
-  - julia -e 'if VERSION >= v"0.7.0-" using Pkg; end; Pkg.clone(pwd()); Pkg.add("PyCall"); Pkg.add("Conda")'
-  - julia -e 'ENV["PYTHON"] = ""; Pkg.build("PyCall")'
-  - julia -e 'using Conda; Conda.add("scipy")'
-  - julia -e 'Pkg.clone(pwd()); Pkg.build("Simplices")'
+  - julia -e 'if VERSION >= v"0.7.0-" using Pkg; end; Pkg.clone(pwd());'
+  #Pkg.add("PyCall"); Pkg.add("Conda")'
+  #- julia -e 'ENV["PYTHON"] = ""; Pkg.build("PyCall")'
+  #- julia -e 'using Conda; Conda.add("scipy")'
+  - julia -e 'Pkg.build("Simplices")'
   - julia -e 'Pkg.test("Simplices"; coverage=true)'
 
 after_success:
