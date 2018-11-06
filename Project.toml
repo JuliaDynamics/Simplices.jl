@@ -1,6 +1,6 @@
 name = "Simplices"
 uuid = "d5428e67-3037-59ba-9ab1-57a04f0a3b6a"
-license = "MIT"
+repo = "https://github.com/kahaaga/Simplices.jl.git"
 
 [deps]
 Conda = "8f4d0f93-b110-5947-807f-2305c1781a2d"
