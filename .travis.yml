@@ -1,34 +1,7 @@
-# Documentation: http://docs.travis-ci.com/user/languages/julia/
 language: julia
 os:
   - linux
-#  - osx
 julia:
-  - 0.7
+  - nightly
   - 1.0
-#notifications:
-#  email: false
-# uncomment the following lines to override the default test script
-script:
-#  - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
-#  - test $TRAVIS_OS_NAME = "linux" && julia -e 'using Pkg; ENV["PYTHON"]=""; py="PyCall"; Pkg.add(py); Pkg.build();'
-#  - julia -e 'Pkg.clone(pwd()); Pkg.build("Simplices"); Pkg.test("Simplices"; coverage=true)'
-
-  #- julia -e 'ENV["PYTHON"] = ""; Pkg.build("PyCall")'
-  #- julia -e 'using Conda; Conda.add("scipy")'
-  #- julia 'Pkg.instantiate()'
-  #- julia test/runtests.jl
-  - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
-  - julia -e 'if VERSION >= v"0.7.0-" using Pkg; end; Pkg.clone(pwd()); Pkg.build("Simplices")'
-  #'; Pkg.test("Simplices"; coverage=true)';
-#after_success:
-  # push coverage results to Coveralls
-  #- julia -e 'cd(Pkg.dir("Simplices")); Pkg.add("Coverage"); using Coverage; Coveralls.submit(Coveralls.process_folder())'
-  # push coverage results to Codecov
-  #- julia -e 'cd(Pkg.dir("Simplices")); Pkg.add("Coverage"); using Coverage; Codecov.submit(Codecov.process_folder())'
-  # create docs (release-0.19 needed for Julia 0.6)
-  #- julia -e 'Pkg.add("Documenter")'
-  #- julia -e 'Pkg.checkout("Documenter")'
-  #- julia -e 'Pkg.checkout("Documenter", "release-0.19")'
-  #- julia -e 'cd(Pkg.dir("Simplices"));'
-  #- julia -e 'include(joinpath("docs", "make.jl"))'
+  - 0.7
