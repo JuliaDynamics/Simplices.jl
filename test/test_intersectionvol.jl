@@ -122,14 +122,14 @@ function test_sharing(dim,N)
 end
 
 @testset "Nontrivial intersection" begin
-    n = 30
+    n = 10
     @testset "E = $E" for E in 3:5
         @test test_nontrivial(E, n) == true
     end
 end
 
 @testset "Sharing a vertex" begin
-    n = 30
+    n = 10
     @testset "E = $E" for E in 3:5
         @test test_sharing(E, n) == true
     end
@@ -152,7 +152,7 @@ end
 
     init()
 
-    reps = 30
+    reps = 10
     # Time more involved examples
     println("nD discrepancy test with ", reps, " reps:")
     @testset "E = $E" for E in 3:5
