@@ -11,4 +11,4 @@ script:
 #  - julia --compilecache=no -e 'Pkg.clone(pwd()); Pkg.build("Simplices")'
   - julia -e 'ENV["PYTHON"] = ""; using Pkg; Pkg.build("PyCall")'
   - julia -e 'using Conda; Conda.add("scipy")'
-  - julia -e 'Pkg.test()'
+  - julia -e 'using Pkg; Pkg.test()'
