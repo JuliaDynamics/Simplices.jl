@@ -72,7 +72,7 @@ function invariantset(embedding)
     # Find the row indices of the simplices that possibly contain the last point (meaning that
     # dist(simplex_i, lastpoint) <= radius(simplex), so the circumsphere of the simplex
     # contains the last point.
-    valid_simplex_indices = find(heaviside0(distdifferences) .* collect(1:size(triangulation[2], 1)))
+    valid_simplex_indices = findall((heaviside0(distdifferences) .* collect(1:size(triangulation[2], 1))) .> 0)
 
     n_validsimplices = size(valid_simplex_indices, 1)
 

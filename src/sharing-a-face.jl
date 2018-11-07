@@ -16,7 +16,9 @@ function SharedFaceVolume(simplex2::Array{Float64, 2},
     if extra_convex_coeff > 0
         negativecoeff = heaviside(-convex_exp_lastvertof1[shared_vert_indicesin2])
         negativeindices = round.(Int64, (negativecoeff .* shared_vert_indicesin2))
-        nonnegativeindices = shared_vert_indicesin2[find(x->x!=0, shared_vert_indicesin2 - negativeindices)]
+        #nonnegativeindices = shared_vert_indicesin2[findall(x->x!=0, shared_vert_indicesin2 - negativeindices)]
+        nonnegativeindices = shared_vert_indicesin2[findall((shared_vert_indicesin2 - negativeindices) .>= 0)]
+
         sigma = sum(convex_exp_lastvertof1[nonnegativeindices])
         nonnegativecoeffs = convex_exp_lastvertof1[vcat(nonnegativeindices, indexextra2)] /
                             (convex_exp_lastvertof1[indexextra2][1] + sigma)
