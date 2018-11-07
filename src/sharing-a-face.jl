@@ -41,7 +41,7 @@ function SharedFaceVertices(simplex2::Array{Float64, 2},
     if extra_convex_coeff > 0
         negativecoeff = heaviside(-convex_exp_lastvertof1[1, shared_vert_indicesin2])
         negativeindices = round.(Int64, (negativecoeff .* shared_vert_indicesin2))
-        nonnegativeindices = transpose(find(shared_vert_indicesin2 - negativeindices))
+        nonnegativeindices = transpose((shared_vert_indicesin2 - negativeindices) .> 0)
         nonnegativeindices = shared_vert_indicesin2[nonnegativeindices]
         sigma = sum(convex_exp_lastvertof1[1, nonnegativeindices])
         nonnegativecoeffs = convex_exp_lastvertof1[1, vec([transpose(nonnegativeindices) indexextra2])] /
