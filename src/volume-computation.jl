@@ -14,7 +14,7 @@ function VolumeComputation(polytope_vertices::Array{Float64, 2},
     intvol = 0.0
 
     if num_generators == dim + 1 # Intersection is a simplex
-        return abs(det(vcat(ones(1, dim + 1), polytope_vertices.')))
+        return abs(det(vcat(ones(1, dim + 1), copy(transpose(polytope_vertices)))))
     elseif num_generators > dim + 1 # Intersection is a polytope.
         # The polytope faces and how many of them are nonsingular.
         triangulation_polytope_faces, n_nonsingular_faces = TriangulationPolytopeFaces(convexp, num_generators, dim)

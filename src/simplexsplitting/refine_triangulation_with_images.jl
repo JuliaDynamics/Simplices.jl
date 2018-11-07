@@ -1,12 +1,16 @@
 """
-    refine_triangulation_images(triang_vertices, triang_simplex_indices, splitting_rules,
-                                image_vertices, split_indices = [])
+    refine_triangulation_images(triang_vertices,
+								triang_simplex_indices,
+								splitting_rules,
+                                image_vertices,
+								split_indices = Int[])
 
-Refine a triangulation (composed of simplices), also updating the images of the simplices
-in the triangulation.
+Refine a triangulation (composed of simplices), also updating the images of the
+simplices in the triangulation.
 
-`triang_vertices::Array{Float64, 2} is a (n_triangulation_vertices x embeddingdim) sized
-    array where each row is a vertex of the triangulation.
+- `triang_vertices::Array{Float64, 2} is a
+    (n_triangulation_vertices x embeddingdim) sized array where each row is a
+    vertex of the triangulation.
 `triang_simplex_indices::Array{Int, 2}` is an array of size
     (n_trinagulation_simplices x (embeddingdim+1)). Each row of simplex_indices contains
     the indices of the vertices (rows of the vertices array) furnishing the corresponding
@@ -74,8 +78,8 @@ function refine_triangulation_images(triang_vertices, triang_simplex_indices,
             original_vertices = vertices[rules[j, :], :]
             original_vertices_image = imagevertices[rules[j, :], :]
 
-            new_vertices[ind_newvertex, :] = sum(original_vertices, 1) ./ k
-            new_imagevertices[ind_newvertex, :] = sum(original_vertices_image, 1) ./ k
+            new_vertices[ind_newvertex, :] = sum(original_vertices, dims=1) ./ k
+            new_imagevertices[ind_newvertex, :] = sum(original_vertices_image, dims=1) ./ k
 
         end
     end

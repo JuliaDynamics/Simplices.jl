@@ -1,6 +1,6 @@
 using Distributions
 
-type Embedding
+struct Embedding
     embedding::Array{Float64, 2}
 end
 
@@ -90,7 +90,7 @@ function embed(ts::Vector{Float64}, E::Int, tau::Int)
     stop_index  = start_index + l - 1
     embedded_ts[i, :] = ts[start_index:stop_index]
   end
-  return embedded_ts.'
+  return copy(transpose(embedded_ts))
 end
 
 """
@@ -110,7 +110,7 @@ function embedding(ts::Vector{Float64}, E::Int, tau::Int)
     stop_index  = start_index + l - 1
     embedded_ts[i, :] = ts[start_index:stop_index]
   end
-  return Embedding(embedded_ts.')
+  return Embedding(copy(transpose(embedded_ts)))
 end
 
 """

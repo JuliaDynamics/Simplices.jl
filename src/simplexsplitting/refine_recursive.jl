@@ -111,7 +111,7 @@ function refine_recursive(points, simplex_inds, maxsize, k; niter = 1)
             # Pick the corresponding original vertices with indices contained in rules[j, :]
             original_vertices = vertices[rules[j, :], :]
 
-            new_vertices[ind_newvertex, :] = sum(original_vertices, 1) ./ k
+            new_vertices[ind_newvertex, :] = sum(original_vertices, dims=1) ./ k
 
         end
     end

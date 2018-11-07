@@ -8,7 +8,7 @@ function invariantset(embedding)
     dim = size(embedding, 2)
 
     # Triangulate the embedding using all points but the last
-    triangulation = Simplices.Delaunay.delaunayn(embedding[1:end-1, :])
+    triangulation = delaunayn(embedding[1:end-1, :])
 
     points = embedding[1:end-1, :]
     simplex_indices = triangulation
@@ -16,10 +16,10 @@ function invariantset(embedding)
     # Centroids and radii of simplices in the triangulation
     centroids, radii = centroids_radii2(points, simplex_indices)
 
-    lastpoint_matrix = repmat(lastpoint', size(centroids, 1), 1)
+    lastpoint_matrix = repeat(lastpoint', size(centroids, 1), 1)
 
     # Find simplices that can contain the last point (not all can)
-    dists_lastpoint_and_centroids = sum((lastpoint_matrix - centroids).^2, 2)
+    dists_lastpoint_and_centroids = sum((lastpoint_matrix - centroids).^2, dims=2)
     distdifferences = radii.^2 - dists_lastpoint_and_centroids
 
     # Find the row indices of the simplices that possibly contain the last point (meaning that

@@ -12,7 +12,6 @@ r2::Float64 Radius of simplex 2
 Returns either 0 or 1; 1 if some of the vertices of simplex1 are contained in the circumsphere
 of simplex 2, 0 otherwise.
 """
-
 function SomeVertexInCircumsphere(simplex1, r2, c2)
     # The dimension
     n = size(simplex1, 1)
@@ -23,7 +22,7 @@ function SomeVertexInCircumsphere(simplex1, r2, c2)
     while i <= (n + 1) && !some_vertex_in_circumsphere
         # Difference between the i-th vertex of simplex1 and centroid of simplex2
         ith_vertex = simplex1[:, i] - c2
-        tmp = heaviside0(r2^2 - ith_vertex.' * ith_vertex) # Radius times norm
+        tmp = heaviside0(r2^2 - transpose(ith_vertex) * ith_vertex) # Radius times norm
 
         if tmp == 1
             some_vertex_in_circumsphere = true

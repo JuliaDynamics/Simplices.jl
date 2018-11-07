@@ -32,8 +32,8 @@ function newpoints_for_particular_k!(new_points, new_impoints, split_inds)
             original_points = ith_simpl_vertices[jth_simpl_rules, :]
             original_impoints = ith_simpl_imvertices[jth_simpl_rules, :]
 
-            append!(new_points, sum(original_points, 1) ./ ks[i])
-            append!(new_impoints, sum(original_impoints, 1) ./ ks[i])
+            append!(new_points, sum(original_points, dims=1) ./ ks[i])
+            append!(new_impoints, sum(original_impoints, dims=1) ./ ks[i])
         end
     end
 

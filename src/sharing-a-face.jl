@@ -16,7 +16,9 @@ function SharedFaceVolume(simplex2::Array{Float64, 2},
     if extra_convex_coeff > 0
         negativecoeff = heaviside(-convex_exp_lastvertof1[shared_vert_indicesin2])
         negativeindices = round.(Int64, (negativecoeff .* shared_vert_indicesin2))
-        nonnegativeindices = shared_vert_indicesin2[find(shared_vert_indicesin2 - negativeindices)]
+        #nonnegativeindices = shared_vert_indicesin2[findall(x->x!=0, shared_vert_indicesin2 - negativeindices)]
+        nonnegativeindices = shared_vert_indicesin2[findall((shared_vert_indicesin2 - negativeindices) .>= 0)]
+
         sigma = sum(convex_exp_lastvertof1[nonnegativeindices])
         nonnegativecoeffs = convex_exp_lastvertof1[vcat(nonnegativeindices, indexextra2)] /
                             (convex_exp_lastvertof1[indexextra2][1] + sigma)
@@ -34,19 +36,19 @@ function SharedFaceVertices(simplex2::Array{Float64, 2},
     n = size(simplex2, 1)
     indexextra1 = ordered_vertices1[n + 1][1]
     indexextra2 = ordered_vertices2[n + 1][1]
-    convex_exp_lastvertof1 = convexexp1in2[:, indexextra1].'
+    convex_exp_lastvertof1 = transpose(convexexp1in2[:, indexextra1])
     extra_convex_coeff = convex_exp_lastvertof1[indexextra2]
-    shared_vert_indicesin2 = ordered_vertices2[1:n].'
+    shared_vert_indicesin2 = transpose(ordered_vertices2[1:n])
 
     if extra_convex_coeff > 0
         negativecoeff = heaviside(-convex_exp_lastvertof1[1, shared_vert_indicesin2])
         negativeindices = round.(Int64, (negativecoeff .* shared_vert_indicesin2))
-        nonnegativeindices = find(shared_vert_indicesin2 - negativeindices).'
+        nonnegativeindices = transpose((shared_vert_indicesin2 - negativeindices) .> 0)
         nonnegativeindices = shared_vert_indicesin2[nonnegativeindices]
         sigma = sum(convex_exp_lastvertof1[1, nonnegativeindices])
-        nonnegativecoeffs = convex_exp_lastvertof1[1, vec([nonnegativeindices.' indexextra2])] /
+        nonnegativecoeffs = convex_exp_lastvertof1[1, vec([transpose(nonnegativeindices) indexextra2])] /
                             (convex_exp_lastvertof1[indexextra2][1] + sigma)
-        newpoint = simplex2[:, vec([nonnegativeindices.' [indexextra2]])] * nonnegativecoeffs
+        newpoint = simplex2[:, vec([transpose(nonnegativeindices) [indexextra2]])] * nonnegativecoeffs
         intersecting_vertices = [simplex2[:, vec(shared_vert_indicesin2)] newpoint]
         if abs(det([ones(1, n + 1); intersecting_vertices])) > 0
             return intersecting_vertices

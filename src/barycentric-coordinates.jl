@@ -19,7 +19,7 @@ function BarycentricCoordinates(simplex1::AbstractArray{Float64, 2},
     ########################################
 
     # Will contain the indices of the vertices of simplex1 that are contained in simplex2
-    contained_vertices = Vector{Int}(n+1)
+    contained_vertices = zeros(Int, n + 1)
 
     for column1 = 1:n+1
         # Initialize convex expansion coefficient

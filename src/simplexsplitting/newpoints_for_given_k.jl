@@ -53,8 +53,8 @@ function newpoints_given_k!(
             original_points = ith_simpl_vertices[jth_simpl_rules, :]
             original_impoints = ith_simpl_imvertices[jth_simpl_rules, :]
 
-            append!(new_points, sum(original_points, 1) ./ split_info.ks[i])
-            append!(new_impoints, sum(original_impoints, 1) ./ split_info.ks[i])
+            append!(new_points, sum(original_points, dims=1) ./ split_info.ks[i])
+            append!(new_impoints, sum(original_impoints, dims=1) ./ split_info.ks[i])
         end
     end
 

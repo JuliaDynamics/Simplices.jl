@@ -31,14 +31,14 @@ function QR(Gamma, tolerance)
 
       # M=Q*R
       #Q is an orthogonal matrix of dimension m x m
-      qr_decomposition = qr(Gamma)[2] # access the second element of the tuple
+      qr_decomposition = qr(Gamma).R # access the second element of the tuple
       # R is an upper triangular matrix of dimension m x n
       R = triu(qr_decomposition)
 
       # diagonal is a column vector with dimension either n-1 (if m=n-1) or n (if m>=n)
       # Set entries that are too small relative to `tolerance` to zero.
-      diagonal = heaviside(tolerance - abs.(diag(R)))
-      index = round.(Int, collect(1:min(m, n)).' * diagonal)[1]
+      diagonal = heaviside(tolerance .- abs.(diag(R)))
+      index = round.(Int, transpose(collect(1:min(m, n))) * diagonal)[1]
 
       if index == 0
          # the first n-1 columns are linearly independent
@@ -53,7 +53,7 @@ function QR(Gamma, tolerance)
       lambda[index + 1] = 1
       lambda = lambda / (ones(1, n) * lambda)
    end
-   lambda = lambda .* heaviside(abs.(lambda) - tolerance)
+   lambda = lambda .* heaviside(abs.(lambda) .- tolerance)
 
    return(lambda)
 end

@@ -8,7 +8,7 @@ two-dimensional array).
 """
 function centroid(simplex::Array{T, 2}) where {T<:Number}
     n = size(simplex, 1) # Dimension of the space the simplex lives in
-    (ones(n, 1)/n).' * simplex
+    transpose(ones(n, 1)/n) * simplex
 end
 
 """
@@ -96,7 +96,7 @@ function insidepoints(npts::Int, parentsimplex::Array{T, 2}) where {T<:Number}
 
     # Normalise the coefficients so that they sum to one. We can then create the new point
     # as a convex linear combination of the vertices of the parent simplex.
-    normalised_coeffs = (1 ./ sum(R, 2)) .* R
+    normalised_coeffs = (1 ./ sum(R, dims=2)) .* R
     normalised_coeffs * parentsimplex
 end
 
@@ -112,7 +112,7 @@ function outsidepoint(parentsimplex::Array{T, 2}) where {T<:Number}
 
     # Normalise the coefficients so that they sum to one. We can then create the new point
     # as a convex linear combination of the vertices of the parent simplex.
-    normalised_coeffs = (1 ./ sum(R, 2)) .* R
+    normalised_coeffs = (1 ./ sum(R, dims=2)) .* R
     normalised_coeffs[1] += 1
 
     normalised_coeffs * parentsimplex
@@ -165,7 +165,7 @@ function simplices_sharing_vertices(dim::Int)
     shared_verts = rs[rand(1:n_shared_verts, n_shared_verts), :]
 
     if ndims(shared_verts) == 1
-        new_simplex = vcat(new_simplex, shared_verts.')
+        new_simplex = vcat(new_simplex, transpose(shared_verts))
     else
         new_simplex = vcat(new_simplex, shared_verts)
     end

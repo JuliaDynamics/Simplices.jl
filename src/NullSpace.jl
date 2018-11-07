@@ -9,7 +9,7 @@ function NullSpace(B, r)
     #PermC is the permutation of columns throughout the process
 
     dim1, dim2 = size(B)
-    P = eye(dim2)
+    P = Matrix(1.0I, dim2, dim2)
     PermC = 1:dim2
 
     Bp = copy(B)
@@ -19,7 +19,7 @@ function NullSpace(B, r)
         d1 = dim1 - a + 1
         d2 = dim2 - a + 1
 
-        ind = indmax(reshape(temp, d1 * d2, 1))
+        ind = argmax(reshape(temp, d1 * d2, 1))[1]
         column = ceil(Int64, ind / d1)
         row = a - 1 + ind - (column - 1) * d1
         column = a - 1 + column

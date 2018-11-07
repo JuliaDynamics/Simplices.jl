@@ -1,6 +1,8 @@
 __precompile__(true)
 
 module Simplices
+using LinearAlgebra
+using Printf
 
 using Distributions
 

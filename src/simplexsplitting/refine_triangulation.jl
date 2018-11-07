@@ -64,14 +64,14 @@ function refine_triangulation(triang_vertices, triang_simplex_indices, split_ind
             # Pick the corresponding original vertices with indices contained in rules[j, :]
             original_vertices = vertices[rules[j, :], :]
 
-            new_vertices[ind_newvertex, :] = sum(original_vertices, 1) ./ k
+            new_vertices[ind_newvertex, :] = sum(original_vertices, dims=1) ./ k
 
         end
     end
 
     # Find the unique new vertices
-    new_vertices_noreps = unique(new_vertices, 1)
-    Ind = Vector{Int}(size(new_vertices, 1))
+    new_vertices_noreps = unique(new_vertices, dims=1)
+    Ind = Vector{Int}(undef, size(new_vertices, 1))
     for i = 1:size(new_vertices_noreps, 1)
         for j = 1:size(new_vertices, 1)
             if new_vertices_noreps[i, :] == new_vertices[j, :]
@@ -85,13 +85,13 @@ function refine_triangulation(triang_vertices, triang_simplex_indices, split_ind
     triang_vertices = vcat(triang_vertices, new_vertices_noreps)
 
     # Update the Ind array, so that we start at the new vertices
-    Ind = Ind + num_vertices_beforesplit
+    Ind = Ind .+ num_vertices_beforesplit
     num_simplices_each_split = size(subtriangulation, 1)
 
     # The subsimplices formed by the splitting. Each row contains E + 1 indices referencing
     # the vertices furnishing that particular subsimplex (now found in the updated
     # triang_vertices array).
-    newtriangulation = Array{Float64}(num_simplices_each_split * n_split_simplices, E + 1)
+    newtriangulation = Array{Float64, 2}(undef, num_simplices_each_split * n_split_simplices, E + 1)
 
     # For each simplex that we need to split,
     for i = 1:n_split_simplices

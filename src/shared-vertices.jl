@@ -13,7 +13,7 @@ function SharedVertices(convexexp1in2::Array{Float64, 2},
         contained1in2 = collect(1:numof1in2)
         contained2in1 = collect(1:numof2in1)
 
-        referenceexpansion = eye(size(convexexp1in2, 1), size(convexexp1in2, 2))
+        referenceexpansion = Matrix(1.0I, size(convexexp1in2, 1), size(convexexp1in2, 2))
 
         exp1 = convexexp1in2[:, reordered_vertices1[1:numof1in2]]
         exp2 = referenceexpansion[:, reordered_vertices2[1:numof2in1]]
@@ -25,8 +25,9 @@ function SharedVertices(convexexp1in2::Array{Float64, 2},
         exp1Xones_num2 = kron(exp1, ones(1, num2))
         ones_num1Xexp2 = kron(ones(1, num1), exp2)
 
-        temp = maximum(abs.(exp1Xones_num2 - ones_num1Xexp2), 1) # WHAT?
-        coincidences = find(heaviside0(-temp).' .* collect(1:M))
+        temp = maximum(abs.(exp1Xones_num2 - ones_num1Xexp2), dims = 1)
+        x = transpose(heaviside0(-temp)) .* collect(1:M)
+        coincidences = (LinearIndices(x))[findall(x->x!=0, x)]
         coincidences = coincidences
         Ncomm = length(coincidences)
 
@@ -34,7 +35,7 @@ function SharedVertices(convexexp1in2::Array{Float64, 2},
             # Indices in 1:numof1in2 corresponding to the vertices in simplex1 that are shared
             internal_indices_sharedvert_in_1 = ceil.(Int64, coincidences ./ num2)
             # Indices in 1:numof2in1 corresponding to the vertices in simplex2 that are shared
-            internal_indices_sharedvert_in_2 = round.(Int64, coincidences - num2 * (internal_indices_sharedvert_in_1 - 1))
+            internal_indices_sharedvert_in_2 = round.(Int64, coincidences .- num2 * (internal_indices_sharedvert_in_1 .- 1))
 
             # Common vertices in 1
             common_indices_in1 = contained1in2[internal_indices_sharedvert_in_1]

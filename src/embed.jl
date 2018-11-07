@@ -2,7 +2,7 @@ module Embed
 
 using Distributions
 
-type Embedding
+struct Embedding
     embedding::Array{Float64}
 end
 
@@ -23,7 +23,7 @@ function embed(ts::Vector{Float64}, E::Int, tau::Int)
     stop_index  = start_index + l - 1
     embedded_ts[i, :] = ts[start_index:stop_index]
   end
-  return embedded_ts.'
+  return copy(transpose(embedded_ts))
 end
 
 """
@@ -43,7 +43,7 @@ function embedding(ts::Vector{Float64}, E::Int, tau::Int)
     stop_index  = start_index + l - 1
     embedded_ts[i, :] = ts[start_index:stop_index]
   end
-  return Embedding(embedded_ts.')
+  return Embedding(copy(transpose(embedded_ts)))
 end
 """
     invariantset(embedding, tolerance)
@@ -63,16 +63,16 @@ function invariantset(embedding)
     # Centroids and radii of simplices in the triangulation
     centroids, radii = centroids_radii2(points, simplex_indices)
 
-    lastpoint_matrix = repmat(lastpoint', size(centroids, 1), 1)
+    lastpoint_matrix = repeat(lastpoint, size(centroids, 1), 1)
 
     # Find simplices that can contain the last point (not all can)
-    dists_lastpoint_and_centroids = sum((lastpoint_matrix - centroids).^2, 2)
+    dists_lastpoint_and_centroids = sum((lastpoint_matrix - centroids).^2, dims=2)
     distdifferences = radii.^2 - dists_lastpoint_and_centroids
 
     # Find the row indices of the simplices that possibly contain the last point (meaning that
     # dist(simplex_i, lastpoint) <= radius(simplex), so the circumsphere of the simplex
     # contains the last point.
-    valid_simplex_indices = find(heaviside0(distdifferences) .* collect(1:size(triangulation[2], 1)))
+    valid_simplex_indices = findall((heaviside0(distdifferences) .* collect(1:size(triangulation[2], 1))) .> 0)
 
     n_validsimplices = size(valid_simplex_indices, 1)
 

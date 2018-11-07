@@ -1,5 +1,5 @@
 include("Delaunay.jl")
-using .Delaunay.delaunayn
+using .Delaunay
 
 
 #TODO:: Needs revision. Doesn't work.
@@ -11,9 +11,9 @@ function TriangulationNonSimplicialFaces(VerticesNSFaces,SimplexIndexNS,SimplexF
     for a = 1:numofNSFaces
         # Contains the indices of the elements in IntVert generating the corresponding
         # polytope face.
-        Indices = find(VerticesNSFaces[:, a])
+        Indices = findall(x->x!=0, VerticesNSFaces[:, a])
 
-        FaceVert = complementary(SimplexFaceIndexNS[a], n + 1) + (SimplexIndexNS[a] - 1) * (n + 1)
+        FaceVert = complementary(SimplexFaceIndexNS[a], n + 1) .+ (SimplexIndexNS[a] - 1) * (n + 1)
         BarCoordinates = ConvexExpIntVert[Indices, FaceVert]
 
         # The rows of this array contain the (strictly positive) concvex exp. coefficients of
@@ -29,14 +29,14 @@ function TriangulationNonSimplicialFaces(VerticesNSFaces,SimplexIndexNS,SimplexF
         Null, PermC = NullSpace(BarCoordinates, n)
 
         CopBarCoord = zeros(n, i)
-        CopBarCoord[:, PermC[1:n]] = eye(n)
+        CopBarCoord[:, PermC[1:n]] = Matrix(1.0I, n, n)
         CopBarCoord[:, PermC[(n + 1):i]] = - Null[PermC[1:n], :]
 
         CoplanarCoord = CopBarCoord[2:n, :]
         CoplanarCoord[:, PermC[1]] .= 0.0
 
         # Triangulating
-        simplices = delaunayn(CoplanarCoord.')
+        simplices = delaunayn(copy(transpose(CoplanarCoord)))
         # Notice that the order in the argument of delaunayn
         # corresponds to the order given by Indices
         # The rows of simplices contain the indices of the vertices generating

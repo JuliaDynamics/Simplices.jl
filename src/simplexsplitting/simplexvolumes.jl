@@ -14,7 +14,7 @@ function simplex_volumes(points::Array{Float64, 2},
     volumes = zeros(Float64, nsimplices)
 
     for i = 1:nsimplices
-        simplex = points[indices_simplices[i, :], :].'
+        simplex = copy(transpose(points[indices_simplices[i, :], :]))
         volumes[i] = abs(det([ones(1, dim + 1); simplex]))
     end
 
