@@ -1,3 +1,5 @@
+using Simplices.SimplexSplitting
+
 function canonical_simplex_triangulation(; dim::Int = 3, split_factor::Int = 3)
     # Define vertices of canonical simplex
     canonical_simplex_vertices = zeros(dim + 1, dim)

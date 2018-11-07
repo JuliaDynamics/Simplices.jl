@@ -50,7 +50,11 @@ function simplicial_subdivision(k::Int, E::Int)
     tmp = repeat((((E+1)^k - 1) ./ E) * transpose(collect(0:E)), n_rows, 1)
 
     tmp = heaviside0(-abs.(V - tmp)) .* repeat(collect(1:n_rows), 1, E + 1)
-    tmp = tmp[findall(tmp)]
+
+	#@show tmp
+    #@show findall(tmp)
+    #tmp = tmp[findall(tmp)]
+    tmp = tmp[tmp .> 0]
 
     aux = round.(Int, tmp)
     Caux = round.(Int, complementary(tmp, n_rows))

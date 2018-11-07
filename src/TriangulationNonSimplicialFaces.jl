@@ -1,5 +1,5 @@
 include("Delaunay.jl")
-using .Delaunay.delaunayn
+using .Delaunay
 
 
 #TODO:: Needs revision. Doesn't work.
