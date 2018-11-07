@@ -22,7 +22,7 @@ end
     return(h)
 end
 
-@eval function $(func_name1)(v::RowVector{T}) where T <: Number
+@eval function $(func_name1)(v::Adjoint{T}) where T <: Number
     h = similar(v)
     for i in eachindex(v)
         h[i] = heaviside(v[i])
@@ -51,7 +51,7 @@ end
     return(h)
 end
 
-@eval function $(func_name2)(v::RowVector{T}) where T <: Number
+@eval function $(func_name2)(v::Adjoint{T}) where T <: Number
     h = similar(v)
     for i in eachindex(v)
         h[i] = heaviside0(v[i])
