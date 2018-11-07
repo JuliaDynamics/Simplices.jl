@@ -11,8 +11,8 @@ julia:
 # uncomment the following lines to override the default test script
 script:
 #  - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
-  - test $TRAVIS_OS_NAME = "linux" && julia -e 'using Pkg; ENV["PYTHON"]=""; py="PyCall"; Pkg.add(py); Pkg.build();'
-  - julia -e 'Pkg.clone(pwd()); Pkg.build("Simplices"); Pkg.test("Simplices"; coverage=true)'
+#  - test $TRAVIS_OS_NAME = "linux" && julia -e 'using Pkg; ENV["PYTHON"]=""; py="PyCall"; Pkg.add(py); Pkg.build();'
+#  - julia -e 'Pkg.clone(pwd()); Pkg.build("Simplices"); Pkg.test("Simplices"; coverage=true)'
 
   #- julia -e 'ENV["PYTHON"] = ""; Pkg.build("PyCall")'
   #- julia -e 'using Conda; Conda.add("scipy")'
