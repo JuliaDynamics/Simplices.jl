@@ -42,7 +42,8 @@ function PolytopeGeneratingVertices(Simplex1::AbstractArray{T, 2},
     if numof1in2NotShared * numof2in1NotShared > 0
         # Each simplex contains vertices of the other beyond the shared ones
         #println("# Each simplex contains vertices of the other beyond the shared ones")
-        Id = eye(n+1, n+1)
+        #Id = eye(n+1, n+1)
+		Id = Matrix{Float64}(I, n + 1, n + 1)
 
         indexvert1in2notshared = ordered_vertices1[Ncomm+1:numof1in2]
         indexvert2in1notshared = ordered_vertices2[Ncomm+1:numof2in1]
