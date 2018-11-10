@@ -2,7 +2,15 @@ __precompile__()
 module Delaunay
 
 using StaticArrays
+using LinearAlgebra
 using PyCall
+
+# strides(::Transpose) is not implemented. This workaround from
+# https://github.com/JuliaPy/PyCall.jl/issues/555 should fix it.
+using PyCall: PyObject
+PyObject(x::Adjoint) = PyObject(copy(x))
+PyObject(x::Transpose) = PyObject(copy(x))
+
 const scipyspatial = PyNULL()
 
 function __init__()
@@ -20,7 +28,7 @@ function simplexindices_static(delaunaytriang::PyCall.PyObject)
     # Convert to Julian, accounding for index differences
     # between Python and Julia
     n_simplices = length(py_simplexinds)
-    juliainds = Vector{SVector{n_vertices, Int32}}(n_simplices)
+    juliainds = Vector{SVector{n_vertices, Int32}}(undef, n_simplices)
     for i = 1:n_simplices
         v = get(py_simplexinds, PyVector{Int32}, i - 1) .+ 1
         juliainds[i] = SVector{n_vertices}(v)
@@ -40,7 +48,7 @@ function simplexindices(delaunaytriang::PyCall.PyObject)
     # Convert to Julian, accounding for index differences
     # between Python and Julia
     n_simplices = length(py_simplexinds)
-    juliainds = Vector{Vector{Int32}}(n_simplices)
+    juliainds = Vector{Vector{Int32}}(undef, n_simplices)
     for i = 1:n_simplices
         v = get(py_simplexinds, PyVector{Int32}, i - 1) .+ 1
         juliainds[i] = v
