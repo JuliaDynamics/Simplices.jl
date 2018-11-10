@@ -1,5 +1,3 @@
-using Parameters
-
 """
     triangulate(points::Array{Float64, 2})
 

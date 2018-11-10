@@ -4,8 +4,8 @@ module SimplexSplitting
 
 using LinearAlgebra
 using Printf
+using Distributions
 
-# ENV["PYTHON"]= ""; Pkg.build("PyCall"); using PyCall
 include("../even_sampling.jl")
 include("complementary.jl")
 include("simplex_split.jl")

@@ -1,5 +1,3 @@
-using Distributions
-
 struct Embedding
     embedding::Array{Float64, 2}
 end
