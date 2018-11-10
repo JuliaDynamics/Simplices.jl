@@ -5,6 +5,7 @@ module SimplexSplitting
 using LinearAlgebra
 using Printf
 using Distributions
+using Parameters
 
 include("../even_sampling.jl")
 include("complementary.jl")
