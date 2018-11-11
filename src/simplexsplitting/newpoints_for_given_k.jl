@@ -3,9 +3,9 @@
     newpoints_given_k!(
         new_points::Float64[],
         new_impoints::Float64[],
-         points::Array{Float64, 2},
-         impoints::Array{Float64, 2},
-         simplex_inds::Array{Int, 2},
+         points::AbstractArray{Float64, 2},
+         impoints::AbstractArray{Float64, 2},
+         simplex_inds::AbstractArray{Int, 2},
          split_rules::SplitRules,
          split_info::SplitInfo)
 
@@ -14,11 +14,11 @@ information about which simplices needs to be split and what factor each of them
 be split by.
 """
 function newpoints_given_k!(
-                        new_points::Array{Float64},
-                        new_impoints::Array{Float64},
-                        points::Array{Float64, 2},
-                        impoints::Array{Float64, 2},
-                        simplex_inds::Array{Int, 2},
+                        new_points::AbstractArray{Float64},
+                        new_impoints::AbstractArray{Float64},
+                        points::AbstractArray{Float64, 2},
+                        impoints::AbstractArray{Float64, 2},
+                        simplex_inds::AbstractArray{Int, 2},
                         split_rules::SplitRules,
                         split_info::SplitInfo)
 

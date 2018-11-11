@@ -13,7 +13,7 @@ Returns
 -------
 centroid::Array{Float64, 1}   Row vector. The centroid of the simplex.
 """
-function centroid(simplex::Array{Float64, 2})
+function centroid(simplex::AbstractArray{Float64, 2})
     n = size(simplex)[1]
     centroid = simplex * ones(n + 1, 1)/(n + 1)
     return(centroid)

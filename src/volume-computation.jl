@@ -3,11 +3,11 @@
 
 # Arguments
 
-`polytope_vertices::Array{Float64, 2}`    Contains all the intersecting points between all the boundaries of the simplices. Each row represents some intersecting point. Matrix of size D-by-N, where D = total number of intersecting points. Each row is an intersecting point.
-`convexp::Array{Float64, 2}`  Convex expansions of the vertices in `polytope_vertices` in terms of the original simplices. The size of this array is D-by-(2N + 2), where D = total number of intersecting points. (2N + 2) corresponds to the number of vertices in each simplex * 2. The first n+1 columns correspond to the convex expansion coefficients of the intersecting points in terms of the vertices generating simplex 1. The remaining n+1 to (2N+2) columns correspond to the convex expansion coefficients of the intersecting points in terms of the vertices generating simplex 2. The faces of each simplex are numbered according to the column labels.
+`polytope_vertices::AbstractArray{Float64, 2}`    Contains all the intersecting points between all the boundaries of the simplices. Each row represents some intersecting point. Matrix of size D-by-N, where D = total number of intersecting points. Each row is an intersecting point.
+`convexp::AbstractArray{Float64, 2}`  Convex expansions of the vertices in `polytope_vertices` in terms of the original simplices. The size of this array is D-by-(2N + 2), where D = total number of intersecting points. (2N + 2) corresponds to the number of vertices in each simplex * 2. The first n+1 columns correspond to the convex expansion coefficients of the intersecting points in terms of the vertices generating simplex 1. The remaining n+1 to (2N+2) columns correspond to the convex expansion coefficients of the intersecting points in terms of the vertices generating simplex 2. The faces of each simplex are numbered according to the column labels.
 """
-function VolumeComputation(polytope_vertices::Array{Float64, 2},
-                           convexp::Array{Float64, 2})
+function VolumeComputation(polytope_vertices::AbstractArray{Float64, 2},
+                           convexp::AbstractArray{Float64, 2})
 
     num_generators = size(polytope_vertices, 1) # The number of polytope generators (vertices)
     dim = size(polytope_vertices, 2)

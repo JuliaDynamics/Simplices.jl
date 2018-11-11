@@ -4,14 +4,14 @@ IntersectingBoundaries()
 
 Returns
 -------
-IntVert::Array{Float64, 2}            Contains all the intersecting points between all the boundaries of the simplices. Each row represents some intersecting point. Matrix of size D-by-N, where D = total number of intersecting points. Each row is an intersecting point.
-ConvexExpIntVert::Array{Float64, 2}   Dimension D-by-(2N + 2), where D = total number of intersecting points. (2N + 2) corresponds to the number of vertices in each simplex * 2. The first n+1 columns correspond to the convex expansion coefficients of the intersecting points in terms of the vertices generating 's₁'. The remaining n+1 to (2N+2) columns correspond to the convex expansion coefficients of the intersecting points in terms of the vertices generating 's₂'. The faces of each simplex are numbered according to the column labels.
+IntVert::AbstractArray{Float64, 2}            Contains all the intersecting points between all the boundaries of the simplices. Each row represents some intersecting point. Matrix of size D-by-N, where D = total number of intersecting points. Each row is an intersecting point.
+ConvexExpIntVert::AbstractArray{Float64, 2}   Dimension D-by-(2N + 2), where D = total number of intersecting points. (2N + 2) corresponds to the number of vertices in each simplex * 2. The first n+1 columns correspond to the convex expansion coefficients of the intersecting points in terms of the vertices generating 's₁'. The remaining n+1 to (2N+2) columns correspond to the convex expansion coefficients of the intersecting points in terms of the vertices generating 's₂'. The faces of each simplex are numbered according to the column labels.
 """
-function IntersectionOfBoundaries(s₁::Array{Float64, 2}, s₂::Array{Float64, 2},
-                                    convexexp1in2::Array{Float64, 2},
-                                    convexexp2in1::Array{Float64, 2},
-                                    ordered_vertices1::Vector{Int},
-                                    ordered_vertices2::Vector{Int},
+function IntersectionOfBoundaries(s₁::AbstractArray{Float64, 2}, s₂::AbstractArray{Float64, 2},
+                                    convexexp1in2::AbstractArray{Float64, 2},
+                                    convexexp2in1::AbstractArray{Float64, 2},
+                                    ordered_vertices1::AbstractVector{Int},
+                                    ordered_vertices2::AbstractVector{Int},
                                     num1in2::Int,
                                     num2in1::Int,
                                     Ncomm::Int,

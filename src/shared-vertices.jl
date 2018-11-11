@@ -1,4 +1,4 @@
-function SharedVertices(convexexp1in2::Array{Float64, 2},
+function SharedVertices(convexexp1in2::AbstractArray{Float64, 2},
                         ordered_vertices1::Vector{Int},
                         ordered_vertices2::Vector{Int},
                         numof1in2::Int,

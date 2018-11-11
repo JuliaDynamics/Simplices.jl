@@ -2,7 +2,7 @@
 """
 Is there zero intersection between two simplices?
 """
-function zerointersection(S1::Array{Float64, 2}, S2::Array{Float64, 2})
+function zerointersection(S1::AbstractArray{Float64, 2}, S2::AbstractArray{Float64, 2})
     if toofaraparattointersect(S1, S2) == true
       return(true)
     end
@@ -18,7 +18,7 @@ end
 """
 Checks whether two simplices are too far apart to intersect.
 """
-function toofaraparattointersect(S1::Array{Float64, 2}, S2::Array{Float64, 2})
+function toofaraparattointersect(S1::AbstractArray{Float64, 2}, S2::AbstractArray{Float64, 2})
 
       r1 = Geometry.squaredradius(S1)
       r2 = Geometry.squaredradius(S2)

@@ -4,15 +4,15 @@ Contains the results of
 """
 struct RefinementQuery
     # The points (vertices) in the original simplex space
-    points::Array{Float64, 2}
+    points::AbstractArray{Float64, 2}
 
     # The points (vertices) in the image simplex space
-    impoints::Array{Float64, 2}
+    impoints::AbstractArray{Float64, 2}
 
     # Indices corresponding to the simplices of the triangulation. The indices in a single
     # row of this matrix indicates from which rows of `points` and `impoints` the
     # corresponding simplices should be constructed.
-    simplex_inds::Array{Int64, 2}
+    simplex_inds::AbstractArray{Int64, 2}
 
     # The maximal allowed radius in the resulting triangulation  splitting simplices
     # that are too big.
@@ -21,18 +21,18 @@ struct RefinementQuery
     # The number of new simplices created by splitting to the desired `target_radius`
     n_new_simplices::Int
 
-    ks::Vector{Int}
+    ks::AbstractVector{Int}
 
     # Indices of the simplices that will be split
-    inds_toolarge::Vector{Int}
+    inds_toolarge::AbstractVector{Int}
 
     # The resulting maximum subsimplex radius for each simplex simplex that is being
     # split due to being larger than the allowed target size. Should contain
     # max(radius(simplex), radius(image simplex)).
-    resulting_radii::Vector{Float64}
+    resulting_radii::AbstractVector{Float64}
 
     # The indices of the simplices that will not be split
-    inds_untouched::Vector{Int}
+    inds_untouched::AbstractVector{Int}
 end
 
 
@@ -159,8 +159,8 @@ Stores the simplex splitting rules (a result of a `simplicial_subdivision(dim, k
 for a given dimension and splitting factor.
 """
 struct SplitRules
-    rules::Array{Int, 2}
-    indices::Array{Int, 2}
+    rules::AbstractArray{Int, 2}
+    indices::AbstractArray{Int, 2}
 end
 
 

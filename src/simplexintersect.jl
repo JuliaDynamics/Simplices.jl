@@ -113,7 +113,7 @@ function simplexintersection(S1, S2; tol::Float64 = 1/10^10)
 end
 
 
-function intersectingvertices(S1::Array{Float64, 2}, S2::Array{Float64, 2}; tolerance::Float64 = 1/10^10, what = "volume")
+function intersectingvertices(S1::AbstractArray{Float64, 2}, S2::AbstractArray{Float64, 2}; tolerance::Float64 = 1/10^10, what = "volume")
 
   # Dimension
   n = size(S1, 1)
@@ -190,7 +190,7 @@ function intersectingvertices(S1::Array{Float64, 2}, S2::Array{Float64, 2}; tole
   return Float64[]
 end
 
-function intersection(S1::Array{Float64, 2}, S2::Array{Float64, 2},
+function intersection(S1::AbstractArray{Float64, 2}, S2::AbstractArray{Float64, 2},
                       c1::Vector{Float64}, c2::Vector{Float64},
                       r1::Float64, r2::Float64,
                       orientation_S1::Float64, orientation_S2::Float64)
@@ -267,8 +267,8 @@ function intersection(S1::Array{Float64, 2}, S2::Array{Float64, 2},
 end
 
 
-function simplexintersection(S1::Array{Float64, 2},
-                            S2::Array{Float64, 2},
+function simplexintersection(S1::AbstractArray{Float64, 2},
+                            S2::AbstractArray{Float64, 2},
                             c1::Vector{Float64},
                             c2::Vector{Float64},
                             r1::Float64, r2::Float64,
@@ -352,7 +352,7 @@ function simplexintersection(S1::Array{Float64, 2},
   return IntVol
 end
 
-function intersection2(S1::Array{Float64, 2}, S2::Array{Float64, 2},
+function intersection2(S1::AbstractArray{Float64, 2}, S2::AbstractArray{Float64, 2},
                       c1::Vector{Float64}, c2::Vector{Float64},
                       r1::Float64, r2::Float64,
                       orientation_S1::Float64, orientation_S2::Float64)

@@ -1,5 +1,5 @@
-function SharedFaceVolume(simplex2::Array{Float64, 2},
-                        convexexp1in2::Array{Float64, 2},
+function SharedFaceVolume(simplex2::AbstractArray{Float64, 2},
+                        convexexp1in2::AbstractArray{Float64, 2},
                         ordered_vertices1::Vector{Int},
                         ordered_vertices2::Vector{Int})
     IntVol = 0
@@ -29,8 +29,8 @@ function SharedFaceVolume(simplex2::Array{Float64, 2},
     return IntVol
 end
 
-function SharedFaceVertices(simplex2::Array{Float64, 2},
-                            convexexp1in2::Array{Float64, 2},
+function SharedFaceVertices(simplex2::AbstractArray{Float64, 2},
+                            convexexp1in2::AbstractArray{Float64, 2},
                             ordered_vertices1,
                             ordered_vertices2)
     n = size(simplex2, 1)

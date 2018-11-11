@@ -1,12 +1,12 @@
 """
-    centroid(simplex::Array{Float64, 2}) where {T<:Number} -> Array{Float64, 2}
+    centroid(simplex::AbstractArray{Float64, 2}) where {T<:Number} -> Array{Float64, 2}
 
 Computes the centroid of a simplex given by `(dim+1)`-by-`dim` array, where
 each row is a vertex. Returns the centroid as a vertex (a `1`-by-`dim`
 two-dimensional array).
 
 """
-function centroid(simplex::Array{T, 2}) where {T<:Number}
+function centroid(simplex::AbstractArray{T, 2}) where {T<:Number}
     n = size(simplex, 1) # Dimension of the space the simplex lives in
     transpose(ones(n, 1)/n) * simplex
 end
@@ -17,7 +17,7 @@ end
 Compute radius of a simplex (`(dim+1)`-by-`dim` sized `Array{Float64, 2}`
 given its centroid (`1`-by-`dim` sized `Array{Float64, 2}`).
 """
-function radius(simplex::Array{T, 2}, centroid::Array{T, 2}) where {T<:Number}
+function radius(simplex::AbstractArray{T, 2}, centroid::AbstractArray{T, 2}) where {T<:Number}
 
     # Express vertices with respect to origin
     dim = size(simplex, 2)
@@ -27,12 +27,12 @@ end
 
 
 """
-    radius(s::Array{T, 2}) where {T<:Number} -> Float64
+    radius(s::AbstractArray{T, 2}) where {T<:Number} -> Float64
 
 Compute radius of a simplex `s`, represented by a `Array{Float64, 2}` of size
 `(dim+1)`-by-`dim`.
 """
-function radius(simplex::Array{T, 2}) where {T<:Number}
+function radius(simplex::AbstractArray{T, 2}) where {T<:Number}
 
     # Express vertices with respect to origin
     dim = size(simplex, 2)
@@ -42,31 +42,31 @@ end
 
 
 """
-    orientation(simplex::Array{T, 2}) where {T<:Number} -> Float64
+    orientation(simplex::AbstractArray{T, 2}) where {T<:Number} -> Float64
 
 Compute orientation of a `simplex`, represented by a `Array{Float64, 2}` of size `(dim+1)`-by-`dim`.
 """
-function orientation(simplex::Array{T, 2}) where {T<:Number}
+function orientation(simplex::AbstractArray{T, 2}) where {T<:Number}
     dim = size(simplex, 2)
     hcat(ones(dim + 1, 1), simplex) |> det
 end
 
 """
-    volume(simplex::Array{T, 2}) where {T<:Number} -> Float64
+    volume(simplex::AbstractArray{T, 2}) where {T<:Number} -> Float64
 
 Compute the volume of a `simplex`, represented by a `Array{Float64, 2}` of size `(dim+1)`-by-`dim`.
 """
-function volume(simplex::Array{T, 2}) where {T<:Number}
+function volume(simplex::AbstractArray{T, 2}) where {T<:Number}
     orientation(simplex) |> abs
 end
 
 """
-    childsimplex(parentsimplex::Array{T, 2}) where {T<:Number} -> Array{Float64, 2}
+    childsimplex(parentsimplex::AbstractArray{T, 2}) where {T<:Number} -> Array{Float64, 2}
 
 Generates a random simplex which is entirely contained within `parentsimplex`,
 which is a (dim+1)-by-dim array.
 """
-function childsimplex(parentsimplex::Array{T, 2}) where {T<:Number}
+function childsimplex(parentsimplex::AbstractArray{T, 2}) where {T<:Number}
     # Convex expansion coefficients of the random simplex
     dim = size(parentsimplex, 2)
     rs = rand(dim + 1, dim + 1)
@@ -75,21 +75,21 @@ function childsimplex(parentsimplex::Array{T, 2}) where {T<:Number}
 end
 
 """
-    issingular(simplex::Array{T, 2}) where {T<:Number}
+    issingular(simplex::AbstractArray{T, 2}) where {T<:Number}
 
 Determines if a simplex is singular by checking if any of its vertices are
 identical.
 """
-function issingular(simplex::Array{T, 2}) where {T<:Number}
+function issingular(simplex::AbstractArray{T, 2}) where {T<:Number}
     size(unique(simplex, 1), 1) != size(simplex, 1)
 end
 
 """
-    insidepoints(npts::Int, parentsimplex::Array{T, 2}) where {T<:Number}
+    insidepoints(npts::Int, parentsimplex::AbstractArray{T, 2}) where {T<:Number}
 
 Generates `npts` points that located inside `parentsimplex`.
 """
-function insidepoints(npts::Int, parentsimplex::Array{T, 2}) where {T<:Number}
+function insidepoints(npts::Int, parentsimplex::AbstractArray{T, 2}) where {T<:Number}
     dim = size(parentsimplex, 2)
     # Random linear combination coefficients
     R = rand(Uniform(), npts, dim + 1)
@@ -101,11 +101,11 @@ function insidepoints(npts::Int, parentsimplex::Array{T, 2}) where {T<:Number}
 end
 
 """
-    outsidepoint(parentsimplex::Array{T, 2}) where {T<:Number}
+    outsidepoint(parentsimplex::AbstractArray{T, 2}) where {T<:Number}
 
 Generate a single point that is guaranteed to lie outside `parentsimplex`.
 """
-function outsidepoint(parentsimplex::Array{T, 2}) where {T<:Number}
+function outsidepoint(parentsimplex::AbstractArray{T, 2}) where {T<:Number}
     dim = size(parentsimplex, 2)
     # Random linear combination coefficients
     R = rand(1, dim + 1)
@@ -119,11 +119,11 @@ function outsidepoint(parentsimplex::Array{T, 2}) where {T<:Number}
 end
 
 """
-    outsidepoints(npts::Int, parentsimplex::Array{T, 2}) where T <: Number
+    outsidepoints(npts::Int, parentsimplex::AbstractArray{T, 2}) where T <: Number
 
 Generates `npts` points that located outside `parentsimplex`.
 """
-function outsidepoints(npts::Int, parentsimplex::Array{T, 2}) where {T<:Number}
+function outsidepoints(npts::Int, parentsimplex::AbstractArray{T, 2}) where {T<:Number}
     vcat([outsidepoint(parentsimplex) for i in 1:npts]...)
 end
 
