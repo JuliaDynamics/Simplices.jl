@@ -28,8 +28,8 @@ function Binary(m, n)
     # (thea(1),...,theta(n+1)) \in {0,1}^{(n+1)}
     # such that m = \sum_{k=0}^{n} theta(k+1)*2^k
 
-    exponent = repmat(transpose(float(2) .^ (-(collect(0:n)))), size(m, 1), 1)
-    m = repmat(m, 1, n + 1)
+    exponent = repeat(transpose(float(2) .^ (-(collect(0:n)))), size(m, 1), 1)
+    m = repeat(m, 1, n + 1)
 
     binary = m .* exponent
     binary = floor.(Int64, binary)

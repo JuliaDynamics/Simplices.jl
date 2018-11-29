@@ -3,7 +3,7 @@ module Embed
 using Distributions
 
 struct Embedding
-    embedding::Array{Float64}
+    embedding::AbstractArray{Float64}
 end
 
 """

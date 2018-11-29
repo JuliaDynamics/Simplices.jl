@@ -1,37 +1,37 @@
 """
-    triangulate(points::Array{Float64, 2})
+    triangulate(points::AbstractArray{Float64, 2})
 
 Triangulate a set of vertices in N dimensions. `points` is an array of vertices, where
 each row of the array is a point.
 """
-function triangulate(points::Array{Float64, 2})
+function triangulate(points::AbstractArray{Float64, 2})
     indices = Simplices.Delaunay.delaunayn(points)
     return indices
 end
 
 """
-    Triangulation(points::Array{Float64, 2}, impoints::Array{Float64, 2},
-                simplex_inds::Array{Int, 2})
+    Triangulation(points::AbstractArray{Float64, 2}, impoints::AbstractArray{Float64, 2},
+                simplex_inds::AbstractArray{Int, 2})
 """
 @with_kw mutable struct Triangulation
     # The vertices of the triangulation
-    points::Array{Float64, 2} = zeros(Float64, 0, 0)
+    points::AbstractArray{Float64, 2} = zeros(Float64, 0, 0)
 
     # The image vertices of the triangulation
-    impoints::Array{Float64, 2} = zeros(Float64, 0, 0)
+    impoints::AbstractArray{Float64, 2} = zeros(Float64, 0, 0)
 
     # Array of indices referencing the vertices furnishing each simplex
-    simplex_inds::Array{Int, 2} = zeros(Float64, 0, 0)
+    simplex_inds::AbstractArray{Int, 2} = zeros(Float64, 0, 0)
 
     # Some properties of the simplices furnishing the triangulation
-    centroids::Array{Float64, 2} = zeros(Float64, 0, 0)
-    radii::Vector{Float64} = Float64[]
-    centroids_im::Array{Float64, 2}  = zeros(Float64, 0, 0)
-    radii_im::Vector{Float64} = Float64[]
-    orientations::Vector{Float64} = Float64[]
-    orientations_im::Vector{Float64} = Float64[]
-    volumes::Vector{Float64} = Float64[]
-    volumes_im::Vector{Float64} = Float64[]
+    centroids::AbstractArray{Float64, 2} = zeros(Float64, 0, 0)
+    radii::AbstractVector{Float64} = Float64[]
+    centroids_im::AbstractArray{Float64, 2}  = zeros(Float64, 0, 0)
+    radii_im::AbstractVector{Float64} = Float64[]
+    orientations::AbstractVector{Float64} = Float64[]
+    orientations_im::AbstractVector{Float64} = Float64[]
+    volumes::AbstractVector{Float64} = Float64[]
+    volumes_im::AbstractVector{Float64} = Float64[]
 end
 
 todict(t::Triangulation) = Dict([fn => getfield(t, fn) for fn = fieldnames(t)])
@@ -93,7 +93,7 @@ end
 
 
 struct Simplex
-    v::Vector{Vector{Float64}}
+    v::AbstractVector{AbstractVector{Float64}}
 end
 
 
@@ -141,7 +141,7 @@ function get_imagesimplices(t::Triangulation)
 end
 
 
-function newpoint!(pt::Array{Float64, 1}, s::Simplex, coeffs)
+function newpoint!(pt::AbstractArray{Float64, 1}, s::Simplex, coeffs)
     pt .= 0.0
     for i in 1:length(s.v)
         pt .= pt .+ coeffs[i] * s.v[i]

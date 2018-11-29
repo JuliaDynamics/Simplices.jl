@@ -7,7 +7,7 @@ heaviside0(x::AbstractFloat) = ifelse(x < 0, zero(x), ifelse(x >= 0, one(x), oft
 heaviside0(x::Int64) = ifelse(x < 0, zero(x), ifelse(x >= 0, one(x), oftype(x, 0)))
 heaviside0(x::Float64) = ifelse(x < 0, zero(x), ifelse(x >= 0, one(x), oftype(x, 0)))
 
-function heaviside0(v::Array{Float64})
+function heaviside0(v::AbstractArray{Float64})
     m, n = size(v)
     h = zeros(m, n)
 
@@ -18,7 +18,7 @@ function heaviside0(v::Array{Float64})
 end
 
 
-function heaviside0(v::Array{Int64})
+function heaviside0(v::AbstractArray{Int64})
     m, n = size(v)
     h = zeros(m, n)
 
@@ -55,7 +55,7 @@ function heaviside(v::Vector{Float64})
     return(h)
 end
 
-function heaviside(v::Array{Float64})
+function heaviside(v::AbstractArray{Float64})
     m, n = size(v)
     h = zeros(m, n)
 
@@ -65,7 +65,7 @@ function heaviside(v::Array{Float64})
     return(h)
 end
 
-function heaviside(v::Array{Int64})
+function heaviside(v::AbstractArray{Int64})
     m, n = size(v)
     h = zeros(m, n)
 

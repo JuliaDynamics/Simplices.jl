@@ -1,5 +1,5 @@
 struct Embedding
-    embedding::Array{Float64, 2}
+    embedding::AbstractArray{Float64, 2}
 end
 
 function random_embedding(npts::Int)

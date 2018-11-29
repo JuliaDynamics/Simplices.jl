@@ -69,7 +69,7 @@ function TriangulationPolytopeFaces(βs::AbstractArray{Float64, 2}, n_generators
 
             VerticesSFaces = NonSingularPointsInEachFace
             inner = reshape(VerticesSFaces, size(Simplicial, 1) * n_generators, 1)
-            inner_nonzeros = inner[find(inner)]
+            inner_nonzeros = inner[findall(x->x!=0, inner)]
             inner_reshaped_transposed = copy(transpose(reshape(inner_nonzeros, dim, size(Simplicial, 1))))
             VerticesSFaces = inner_reshaped_transposed
         else
@@ -112,10 +112,10 @@ Returns a vector of length equal to the number of faces in the intersecting poly
 The ith entry of this vector is _i_ if the corresponding face is a true face, 0 otherwise.
 """
 function classify_faces(numofPolFaces::Int,
-                        βs::Array{Float64, 2},
+                        βs::AbstractArray{Float64, 2},
                         dim::Int,
-                        npts_eachface::Array{Int, 2},
-                        faceindices::Array{Int, 1})
+                        npts_eachface::AbstractArray{Int, 2},
+                        faceindices::AbstractArray{Int, 1})
 
     NSF_inds = zeros(Int, 0)
 
