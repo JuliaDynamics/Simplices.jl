@@ -28,7 +28,8 @@ function SharedFaceVolume(S₂::AbstractArray{T, 2},
         # coefficients (hence, the normalisation to get convexity).
         intpt = (S₂[:, inds_positive_coeffs] * positive_coeffs) ./ sum(positive_coeffs)
 
-        return abs(det([ones(1, 4); [S₂[:, shared_vertex_inds_in_S2] intpt]]))
+        return abs(det([ones(1, n_vertices);
+                        [S₂[:, shared_vertex_inds_in_S2] intpt]]))
     end
 end
 
