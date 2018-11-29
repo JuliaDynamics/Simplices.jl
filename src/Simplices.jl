@@ -24,12 +24,14 @@ include("shared-vertices.jl")
 include("sharing-a-face.jl")
 include("some-vertex-in-circumsphere.jl")
 include("simplexoperations.jl")
-include("simplexintersect.jl")
 include("simplex_sampling.jl")
 include("TriangulationPolytopeFaces.jl")
 include("TriangulationNonSimplicialFaces.jl")
 include("Update.jl")
 include("volume-computation.jl")
+
+include("simplexintersect.jl")
+include("intersecting_vertices.jl")
 
 export BarycentricCoordinates,
         centroid,
