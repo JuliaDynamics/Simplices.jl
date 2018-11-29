@@ -69,7 +69,7 @@ function TriangulationPolytopeFaces(βs::AbstractArray{Float64, 2}, n_generators
 
             VerticesSFaces = NonSingularPointsInEachFace
             inner = reshape(VerticesSFaces, size(Simplicial, 1) * n_generators, 1)
-            inner_nonzeros = inner[find(inner)]
+            inner_nonzeros = inner[findall(x->x!=0, inner)]
             inner_reshaped_transposed = copy(transpose(reshape(inner_nonzeros, dim, size(Simplicial, 1))))
             VerticesSFaces = inner_reshaped_transposed
         else
