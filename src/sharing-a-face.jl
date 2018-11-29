@@ -1,7 +1,7 @@
 function SharedFaceVolume(S₂::AbstractArray{T, 2},
             αs_S₁vertices_intermsof_S₂vertices::AbstractArray{Float64, 2},
-            ordered_vertex_indices_S1::Vector{Int},
-            ordered_vertex_indices_S2::Vector{Int}) where {T}
+            ordered_vertex_indices_S1::AbstractVector{Int},
+            ordered_vertex_indices_S2::AbstractVector{Int}) where {T}
 
     # Indices of the nonshared vertices in simplex 1 (label it u)
     # and in simplex 2 (label it v)
@@ -34,8 +34,8 @@ end
 
 function SharedFaceVertices(S₂::AbstractArray{T, 2},
             αs_S₁vertices_intermsof_S₂vertices::AbstractArray{Float64, 2},
-            ordered_vertex_indices_S1::Vector{Int},
-            ordered_vertex_indices_S2::Vector{Int}) where {T}
+            ordered_vertex_indices_S1::AbstractVector{Int},
+            ordered_vertex_indices_S2::AbstractVector{Int}) where {T}
 
     # Indices of the nonshared vertices in simplex 1 (label it u)
     # and in simplex 2 (label it v)
