@@ -113,7 +113,7 @@ function outsidepoint(parentsimplex::AbstractArray{T, 2}) where {T<:Number}
     # Normalise the coefficients so that they sum to one. We can then create the new point
     # as a convex linear combination of the vertices of the parent simplex.
     normalised_coeffs = (1 ./ sum(R, dims=2)) .* R
-    normalised_coeffs[1] += 1
+    normalised_coeffs[1] += (1 - sum(normalised_coeffs[2:dim+1])) + rand()
 
     normalised_coeffs * parentsimplex
 end
