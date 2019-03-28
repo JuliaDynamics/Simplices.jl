@@ -19,7 +19,7 @@ end
 
 function simplexindices_static(delaunaytriang::PyCall.PyObject)
     # The indices of simplices from the pycall object
-    py_simplexinds = delaunaytriang["simplices"]
+    py_simplexinds = delaunaytriang."simplices"
 
     # Get the indices of the first simplex to determine
     # the number of dimensions.
@@ -39,7 +39,7 @@ end
 
 function simplexindices(delaunaytriang::PyCall.PyObject)
     # The indices of simplices from the pycall object
-    py_simplexinds = delaunaytriang["simplices"]
+    py_simplexinds = delaunaytriang."simplices"
 
     # Get the indices of the first simplex to determine
     # the number of dimensions.
@@ -57,19 +57,19 @@ function simplexindices(delaunaytriang::PyCall.PyObject)
 end
 
 function delaunay_static(points)
-    triang = scipyspatial[:Delaunay](points)
+    triang = scipyspatial.Delaunay(points)
     simplexindices_static(triang)
 end
 
 function delaunay(points)
-    triang = scipyspatial[:Delaunay](points)
+    triang = scipyspatial.Delaunay(points)
     simplexindices(triang)
 end
 
 function delaunayn(points)
-    py = scipyspatial[:Delaunay](points)
-    indices = zeros(Int, length(py["simplices"]), size(points, 2) + 1)
-    pyarray_to_array!(py["simplices"], indices, Int)
+    py = scipyspatial.Delaunay(points)
+    indices = zeros(Int, length(py."simplices"), size(points, 2) + 1)
+    pyarray_to_array!(py."simplices", indices, Int)
     return indices .+ 1 # Add 1 to account for base difference in indices
 end
 

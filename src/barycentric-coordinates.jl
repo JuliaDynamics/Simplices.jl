@@ -26,8 +26,9 @@ function BarycentricCoordinates(simplex1::AbstractArray{Float64, 2},
         beta_min = 0.0
 
         for row2 = 1:n+1
-            tmp = copy(simplex2)
-
+            #tmp = copy(simplex2)
+			tmp = similar(simplex2)
+			tmp[:, :] = simplex2[:, :]
             tmp[:, row2] = simplex1[:, column1]
 
             beta = det([ones(1, n + 1); tmp]) / orientation2
@@ -75,7 +76,9 @@ function BarycentricCoordinates(simplex1::AbstractArray{Float64, 2},
         beta_min = 0
 
         for row1 = 1:n+1
-            tmp = copy(simplex1)
+            #tmp = copy(simplex1)
+            tmp = similar(simplex1)
+            tmp[:, :] = simplex1[:, :]
             tmp[:, row1] = simplex2[:, column2]
 
             beta = det([ones(1, n + 1); tmp]) / orientation1
