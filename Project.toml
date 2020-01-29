@@ -11,3 +11,16 @@ Printf = "de0858da-6303-5e67-8744-51eddeeeb8d7"
 PyCall = "438e738f-606a-5dbb-bf0a-cddfbfd45ab0"
 StaticArrays = "90137ffa-7385-5640-81b9-e52037218182"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[compat]
+Conda = "^1.3"
+Distributions = "^0.22.3, ^1"
+Parameters = "^0.12, ^1"
+PyCall = "^1.91.2, ^1"
+StaticArrays = "^0.12.1, ^1"
+
+[extras]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Test"]
