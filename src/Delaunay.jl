@@ -5,12 +5,6 @@ using StaticArrays
 using LinearAlgebra
 using PyCall
 
-# strides(::Transpose) is not implemented. This workaround from
-# https://github.com/JuliaPy/PyCall.jl/issues/555 should fix it.
-using PyCall: PyObject
-PyObject(x::Adjoint) = PyObject(copy(x))
-PyObject(x::Transpose) = PyObject(copy(x))
-
 const scipyspatial = PyNULL()
 
 function __init__()
