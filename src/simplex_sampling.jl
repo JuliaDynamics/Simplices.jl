@@ -1,6 +1,8 @@
 include("even_sampling.jl")
 
 """
+    subsample_coeffs(dim::Int, n_randpts::Int, sample_randomly::Bool)
+
 Returns a matrix of convex coefficients to construct points contained within
 a `dim`-dimensional simplex. Coefficients can either be random (generated
 according to a uniform distribution) or be constructed such that the resulting
