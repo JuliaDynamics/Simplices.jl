@@ -4,5 +4,5 @@
 # Simplices
 
 Julia package for computing exact intersection volumes between n-dimensional simplices. Please see the
-[documentation](https://kahaaga.github.io/Simplices.jl/latest) for package
+[documentation](https://juliadynamics.github.io/Simplices.jl/latest/) for package
 usage instructions.
