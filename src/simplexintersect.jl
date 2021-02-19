@@ -13,13 +13,10 @@ to obtain the true volume.
 ## How are intersections computed?
 Intersections are computed as follows:
 
-1. Find minimal set of points generating the intersection volume. These points form
-a convex polytope Pᵢ.
+1. Find minimal set of points generating the intersection volume. These points form a convex polytope Pᵢ.
 2. Triangulate the faces of Pᵢ into simplices.
-3. Combine each boundary simplex with an interior point in Pᵢ. The set of
-all such combinations form a triangulation of Pᵢ.
-4. Calculate the volume of each simplex in the resulting triangulation. The
-sum of these volumes is the volume of the intersection.
+3. Combine each boundary simplex with an interior point in Pᵢ. The set of all such combinations form a triangulation of Pᵢ.
+4. Calculate the volume of each simplex in the resulting triangulation. The sum of these volumes is the volume of the intersection.
 """
 function simplexintersection(simplex1, simplex2; tol::Float64 = 1/10^10)
   # Nasty hack until we re-do everything for vectors of vectors.

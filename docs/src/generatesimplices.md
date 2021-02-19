@@ -1,8 +1,7 @@
 
 ## Generation of (non)intersecting simplices/points
-
-
 ### Points inside/outside a simplex
+
 Given a simplex, the following points can generate a point or simplices that lies either in the interior or outside that simplex.
 
 ```@docs

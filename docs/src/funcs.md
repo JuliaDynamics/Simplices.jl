@@ -1,11 +1,8 @@
 # Function reference
-
-
 ## Intersection
 
 ```@docs
-simplexintersection(S1::Array{Float64, 2}, S2::Array{Float64, 2};
-		tolerance::Float64 = 1/10^10)
+simplexintersection(S1::Array{Float64, 2}, S2::Array{Float64, 2}; tolerance::Float64 = 1e-10)
 ```
 
 ## Generate (non)intersecting simplices/points
@@ -35,7 +32,6 @@ nontrivially_intersecting_simplices(dim::Int)
 ```
 
 ## Properties of simplices
-
 
 ```@docs
 orientation(simplex::Array{T, 2}) where {T<:Number}

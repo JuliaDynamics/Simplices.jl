@@ -1,8 +1,6 @@
-# How to compute intersections?
+# How are intersections computed?
 
 The intersection between two n-dimensional simplices is calculated boundary triangulation.
-
-## Boundary triangulation method
 Intersections are computed as follows.
 
 1. Find minimal set of points generating the intersection volume. These points form a convex polytope Pᵢ.

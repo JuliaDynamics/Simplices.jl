@@ -1,5 +1,5 @@
 
-## Examples
+# Examples
 
 We'll use a few of the functions used for testing the package to demonstrate its usage. These are
 1. `simplices_sharing_vertices`. Generate a set of simplices which intersect in some arbitrary way, but sharing at least one vertex.
@@ -10,7 +10,8 @@ Note that these functions take as inputs simplices of shape `(dim + 1, dim)`. Th
 
 In the examples, some of the functions used to generate simplices return the simplex arrays with rows as columns. Therefore, we transpose the simplices before calling [`simplexintersection`](@ref).
 
-### Simplices sharing vertices
+## Simplices sharing vertices
+
 Let's compute the intersection between a set of simplices that share at least one vertex.
 
 ```@repl
@@ -20,7 +21,8 @@ s₁, s₂ = transpose.(simplices_sharing_vertices(3))
 simplexintersection(s₁, s₂)
 ```
 
-### Nontrivially intersecting simplices
+## Nontrivially intersecting simplices
+
 Simplices can also intersect in nontrivial ways, meaning that they have an  intersection beyond a common boundary or vertex.
 
 ```@repl
@@ -29,7 +31,8 @@ s₁, s₂ = transpose.(nontrivially_intersecting_simplices(3))
 simplexintersection(s₁, s₂)
 ```
 
-### One simplex fully contained within the other
+## One simplex fully contained within the other
+
 We'll generate a random simplex s₁, then generate a simplex s₂ fully
 contained within that simplex. If s₂ is fully contained, the intersection
 volume should be the volume of s₂.
@@ -55,7 +58,8 @@ all([isapprox(intersection_vols[i], analytical_vols[i];
     atol = 1e-9) for i = 1:length(Ds)])
 ```
 
-### Simplices are identical
+## Simplices are identical
+
 If simplices are identical, the intersection volume should equal the volume of either simplex:
 
 ```@repl
