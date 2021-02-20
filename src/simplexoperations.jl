@@ -37,7 +37,7 @@ function radius(simplex::AbstractArray{T, 2}) where {T<:Number}
     # Express vertices with respect to origin
     dim = size(simplex, 2)
     dists_to_centroid = broadcast(-, centroid(simplex), simplex) # subtract centroid from all vertices
-    maximum(sqrt.(sum(dists_to_centroid.^2, 2)))
+    maximum(sqrt.(sum(dists_to_centroid .^ 2, 2)))
 end
 
 
@@ -66,11 +66,11 @@ end
 Generates a random simplex which is entirely contained within `parentsimplex`,
 which is a (dim+1)-by-dim array.
 """
-function childsimplex(parentsimplex::AbstractArray{T, 2}) where {T<:Number}
+function childsimplex(parentsimplex::AbstractArray{T, 2}) where {T}
     # Convex expansion coefficients of the random simplex
     dim = size(parentsimplex, 2)
     rs = rand(dim + 1, dim + 1)
-    normalised_colsums = 1 ./ sum(rs, 2)
+    normalised_colsums = 1 ./ sum(rs, dims = 2)
     (normalised_colsums .* rs) * parentsimplex
 end
 
@@ -96,7 +96,7 @@ function insidepoints(npts::Int, parentsimplex::AbstractArray{T, 2}) where {T<:N
 
     # Normalise the coefficients so that they sum to one. We can then create the new point
     # as a convex linear combination of the vertices of the parent simplex.
-    normalised_coeffs = (1 ./ sum(R, dims=2)) .* R
+    normalised_coeffs = (1 ./ sum(R, dims = 2)) .* R
     normalised_coeffs * parentsimplex
 end
 
@@ -112,7 +112,7 @@ function outsidepoint(parentsimplex::AbstractArray{T, 2}) where {T<:Number}
 
     # Normalise the coefficients so that they sum to one. We can then create the new point
     # as a convex linear combination of the vertices of the parent simplex.
-    normalised_coeffs = (1 ./ sum(R, dims=2)) .* R
+    normalised_coeffs = (1 ./ sum(R, dims = 2)) .* R
     normalised_coeffs[1] += (1 - sum(normalised_coeffs[2:dim+1])) + rand()
 
     normalised_coeffs * parentsimplex
