@@ -1,22 +1,23 @@
 
 """
-	  simplexintersection(S1::Array{Float64, 2}, S2::Array{Float64, 2};
+	  simplexintersection(s1::Array{Float64, 2}, s2::Array{Float64, 2};
         tolerance::Float64 = 1/10^10) -> Float64
 
 Computes the volume of intersection between two n-dimensional simplices
-by boundary triangulation. The simplices `S1` and `S2` are arrays of
-(n, n+1), where each column is a vertex.
+by boundary triangulation. The simplices `s1` and `s2` are arrays of
+size `(dim, dim+1)`, where each column is a vertex.
 
-Note: the returned volume is not corrected. It should be divided by factorial(dim)
+Note: the returned volume is not corrected. It should be divided by `factorial(dim)`
 to obtain the true volume.
 
 ## How are intersections computed?
+
 Intersections are computed as follows:
 
-1. Find minimal set of points generating the intersection volume. These points form a convex polytope Pᵢ.
-2. Triangulate the faces of Pᵢ into simplices.
-3. Combine each boundary simplex with an interior point in Pᵢ. The set of all such combinations form a triangulation of Pᵢ.
-4. Calculate the volume of each simplex in the resulting triangulation. The sum of these volumes is the volume of the intersection.
+- Find minimal set of points generating the intersection volume. These points form a convex polytope Pᵢ.
+- Triangulate the faces of Pᵢ into simplices. 
+- Combine each boundary simplex with an interior point in Pᵢ. The set of all such combinations form a triangulation of Pᵢ.
+- Calculate the volume of each simplex in the resulting triangulation. The sum of these volumes is the volume of the intersection.
 """
 function simplexintersection(simplex1, simplex2; tol::Float64 = 1/10^10)
   # Nasty hack until we re-do everything for vectors of vectors.

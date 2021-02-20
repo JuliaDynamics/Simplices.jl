@@ -32,10 +32,8 @@ ENV["JULIA_DEBUG"] = "Documenter"
 
 PAGES = [
     "Overview" => "index.md",
-    "Properties of simplices" => "simplexproperties.md",
-    "Simplex intersection" => [
+    "Simplex intersections" => [
         "How to calculate intersections?" => "simplexintersection.md",
-        "Generate intersecting simplices" => "generatesimplices.md",
         "Examples" => "examples.md",
     ],
     "Function reference" => "funcs.md"
