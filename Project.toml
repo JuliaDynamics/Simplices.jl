@@ -1,7 +1,7 @@
 name = "Simplices"
 uuid = "d5428e67-3037-59ba-9ab1-57a04f0a3b6a"
 repo = "https://github.com/JuliaDynamics/Simplices.jl.git"
-version = "0.6.0"
+version = "0.6.1"
 
 [deps]
 Conda = "8f4d0f93-b110-5947-807f-2305c1781a2d"
