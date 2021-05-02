@@ -15,7 +15,7 @@ Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
 [compat]
 Conda = "^1.5"
-Distributions = "^0.22.3, ^1, ^0.24"
+Distributions = "^0.22.3, ^1, ^0.24, 0.25"
 Parameters = "^0.12, ^1"
 PyCall = "^1.92, ^1"
 StaticArrays = "^0.12.1, ^1"
